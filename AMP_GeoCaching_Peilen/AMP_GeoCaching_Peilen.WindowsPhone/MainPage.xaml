@@ -9,7 +9,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ComboBox Name="comboBox" ItemsSource="{Binding Items}"
-            SelectedItem="{Binding Item}"/>
+        <ComboBox Name="cB_FormatSelector" 
+                  ItemsSource="{Binding Items}"
+                  SelectedValue="{Binding SelectedItem, Mode=TwoWay}"
+                  DisplayMemberPath="Name"
+                  Margin="65,281,65,-250"/>
     </Grid>
 </Page>

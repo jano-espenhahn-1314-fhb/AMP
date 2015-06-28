@@ -30,5 +30,6 @@ namespace AMP_GeoCaching_Peilen.ViewModel
             ////    // Code runs "for real"
             ////}
         }
+
     }
 }

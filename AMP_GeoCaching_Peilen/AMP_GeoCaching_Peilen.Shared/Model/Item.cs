@@ -1,43 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Windows;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 
 namespace AMP_GeoCaching_Peilen.Model
 {
-    class Item : INotifyPropertyChanged
+    public class Item : BaseINPC
     {
-        public string Name { get; set; }
-        public object Value { get; set; }
 
-        // The number of each item that has been collected.
-        private int _count;
-        public int Count
+        private string _name;
+
+        // The name of the item.
+        public string Name
         {
-            get
-            {
-                return _count;
-            }
+            get { return this._name; }
             set
             {
-                _count = value;
-                RaisePropertyChanged("Count");
+                this._name = value;
+                RaisePropertyChanged("Name");
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private string _value;
 
-        private void RaisePropertyChanged(string propertyName)
+        // The Value of the item.
+        public string Value
         {
-            if (this.PropertyChanged != null)
+            get { return this._value; }
+            set
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                this._value = value;
+                RaisePropertyChanged("Value");
             }
         }
 
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            return Name;
+            return obj is Item && ((Item)obj).Value.Equals(Value);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
         }
     }
 }

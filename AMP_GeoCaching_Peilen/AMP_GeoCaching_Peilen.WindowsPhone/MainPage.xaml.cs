@@ -12,19 +12,20 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
+using AMP_GeoCaching_Peilen.ViewModel;
 
 namespace AMP_GeoCaching_Peilen
 {
-    /// <summary>
-    /// Eine leere Seite, die eigenständig verwendet werden kann oder auf die innerhalb eines Frames navigiert werden kann.
-    /// </summary>
-    public sealed partial class MainPage : Page
+
+    public partial class MainPage : Page
     {
+
         public MainPage()
         {
             this.InitializeComponent();
+
+            //Set the data context of the window
+            DataContext = new ComboBoxViewModel();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -36,13 +37,7 @@ namespace AMP_GeoCaching_Peilen
         /// Dieser Parameter wird normalerweise zum Konfigurieren der Seite verwendet.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // TODO: Seite vorbereiten, um sie hier anzuzeigen.
-
-            // TODO: Wenn Ihre Anwendung mehrere Seiten enthält, stellen Sie sicher, dass
-            // die Hardware-Zurück-Taste behandelt wird, indem Sie das
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed-Ereignis registrieren.
-            // Wenn Sie den NavigationHelper verwenden, der bei einigen Vorlagen zur Verfügung steht,
-            // wird dieses Ereignis für Sie behandelt.
+            base.OnNavigatedTo(e);
         }
     }
 }

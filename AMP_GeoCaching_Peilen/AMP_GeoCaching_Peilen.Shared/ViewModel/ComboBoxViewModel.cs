@@ -1,51 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Windows;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AMP_GeoCaching_Peilen.Model;
+using System.ComponentModel;
+using System.Linq;
 
 namespace AMP_GeoCaching_Peilen.ViewModel
 {
-    class ComboBoxViewModel
+    public class ComboBoxViewModel : BaseINPC
     {
         public ObservableCollection<Item> Items { get; set; }
 
-        public void GetItems()
+        public ComboBoxViewModel()
         {
-            if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.Count > 0)
+            this.Items = new ObservableCollection<Item>();
+            this.GetItems();
+
+            this.SelectedItem = this.Items.FirstOrDefault();
+        }
+        
+        private Item selectedItem;
+        public Item SelectedItem
+        {
+            get { return this.selectedItem; }
+            set
             {
-                GetSavedItems();
-            }
-            else
-            {
-                GetDefaultItems();
+                this.selectedItem = value;
+                RaisePropertyChanged("Item");
             }
         }
 
-        public void GetDefaultItems()
+        private void GetItems()
         {
-            ObservableCollection<Item> a = new ObservableCollection<Item>();
-
-            // Items for the ComboBox
-            a.Add(new Item() { Name = "N50°25.123', E006°45.000'", Value = "1" });
-            a.Add(new Item() { Name = "N50.418716° , E006.750000°", Value = "2 " });
-            a.Add(new Item() { Name = "N50°25' 07.4'', E006°45' 00.0''", Value = "3" });
-
-            Items = a;
+            // Fill the ComboBox with Items
+            this.Items.Add(new Item() { Name = "N50°25.123', E006°45.000'", Value = "1" });
+            this.Items.Add(new Item() { Name = "N50.418716° , E006.750000°", Value = "2 " });
+            this.Items.Add(new Item() { Name = "N50°25' 07.4'', E006°45' 00.0''", Value = "3" });
         }
 
-        public void GetSavedItems()
-        {
-            ObservableCollection<Item> a = new ObservableCollection<Item>();
-
-            foreach (Object o in Windows.Storage.ApplicationData.Current.LocalSettings.Values)
-            {
-                a.Add((Item)o);
-            }
-
-            Items = a;
-        }
     }
 }
