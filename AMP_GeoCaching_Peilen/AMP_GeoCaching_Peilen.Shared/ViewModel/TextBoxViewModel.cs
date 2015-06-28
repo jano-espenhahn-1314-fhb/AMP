@@ -20,6 +20,8 @@ namespace AMP.GeoCachingTools.ViewModel
             this.fillLists();
         }
 
+        // TODO 1: Fehlerbehandlung: Eingabe Checkboxen 
+        // TODE 2: Änderung der Texte in Platzhalter bei Änderung Auswahl der Checkboxen
         private void fillLists()
         {
             longitudeList.Add("N50°25.123'");
