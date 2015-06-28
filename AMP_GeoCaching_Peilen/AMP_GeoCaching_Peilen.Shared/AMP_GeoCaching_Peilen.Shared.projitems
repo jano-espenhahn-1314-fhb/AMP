@@ -17,8 +17,8 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BaseINPC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\TextBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ComboBoxViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MainViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModel.cs" />
   </ItemGroup>
 </Project>

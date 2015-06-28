@@ -8,6 +8,10 @@ namespace AMP.GeoCachingTools
 {
     public abstract class BaseINPC : INotifyPropertyChanged  
     {
+        public bool IsDirty { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         protected void RaisePropertyChanged(string propertyName)
         {
             var handler = PropertyChanged; 
@@ -18,6 +22,14 @@ namespace AMP.GeoCachingTools
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            IsDirty = true;
+        }
+
+        public void Save()
+        {
+            IsDirty = false;
+        }
     }
 }
