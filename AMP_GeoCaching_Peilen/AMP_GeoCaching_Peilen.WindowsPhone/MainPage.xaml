@@ -9,10 +9,53 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ComboBox Name="cB_FormatSelector" 
-                  ItemsSource="{Binding Items}"
-                  SelectedValue="{Binding SelectedItem, Mode=TwoWay}"
-                  DisplayMemberPath="Name"
-                  Margin="65,281,65,-250"/>
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="159,78,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="Peilen" 
+                   VerticalAlignment="Top" 
+                   FontSize="30"/>
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="20,264,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="Geookoordinaten:" 
+                   VerticalAlignment="Top" 
+                   FontSize="15"/>
+        <TextBox   HorizontalAlignment="Left" 
+                   Margin="155,256,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="N50°25.123'"
+                   VerticalAlignment="Top" 
+                   Height="18" 
+                   Width="107" 
+                   FontSize="15"/>
+        <TextBox   HorizontalAlignment="Left" 
+                   Margin="277,256,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="E006°45.000'" 
+                   VerticalAlignment="Top" 
+                   Height="33" 
+                   Width="110" 
+                   FontSize="15"/>
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="24,315,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="Format:" 
+                   VerticalAlignment="Top" 
+                   FontSize="15"/>
+        <ComboBox  Name="cB_FormatSelector" 
+                   ItemsSource="{Binding Items}"
+                   SelectedValue="{Binding SelectedItem, Mode=TwoWay}"
+                   DisplayMemberPath="Name"
+                   HorizontalAlignment="Left" 
+                   Margin="157,296,0,0" 
+                   VerticalAlignment="Top" 
+                   Width="230" 
+                   Height="162" 
+                   FontSize="15"/>
+        <Button    Content="Berechnen" 
+                   HorizontalAlignment="Left" 
+                   Margin="151,451,0,0" 
+                   VerticalAlignment="Top"/>
     </Grid>
 </Page>
