@@ -6,7 +6,7 @@
             Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>AMP_GeoCaching_Peilen.Windows</DisplayName>
+    <DisplayName>AMP.GeoCachingTools.Windows</DisplayName>
     <PublisherDisplayName>Jano</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -23,12 +23,12 @@
   <Applications>
     <Application Id="App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="AMP_GeoCaching_Peilen.Windows.App">
+        EntryPoint="AMP.GeoCachingTools.Windows.App">
         <m2:VisualElements
-            DisplayName="AMP_GeoCaching_Peilen.Windows"
+            DisplayName="AMP.GeoCachingTools.Windows"
             Square150x150Logo="Assets\Logo.png"
             Square30x30Logo="Assets\SmallLogo.png"
-            Description="AMP_GeoCaching_Peilen.Windows"
+            Description="AMP.GeoCachingTools.Windows"
             ForegroundText="light"
             BackgroundColor="#464646">
             <m2:SplashScreen Image="Assets\SplashScreen.png" />

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Collections.ObjectModel;
-using AMP_GeoCaching_Peilen.Model;
+using AMP.GeoCachingTools.Model;
 using System.ComponentModel;
 using System.Linq;
 
-namespace AMP_GeoCaching_Peilen.ViewModel
+namespace AMP.GeoCachingTools.ViewModel
 {
     public class ComboBoxViewModel : BaseINPC
     {

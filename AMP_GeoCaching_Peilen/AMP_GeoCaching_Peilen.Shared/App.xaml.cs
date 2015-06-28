@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 // Die Vorlage "Leere Anwendung" ist unter http://go.microsoft.com/fwlink/?LinkId=234227 dokumentiert.
 
-namespace AMP_GeoCaching_Peilen
+namespace AMP.GeoCachingTools
 {
     /// <summary>
     /// Stellt das anwendungsspezifische Verhalten bereit, um die Standardanwendungsklasse zu ergänzen.

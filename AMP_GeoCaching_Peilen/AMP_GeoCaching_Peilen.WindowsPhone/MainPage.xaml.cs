@@ -12,9 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using AMP_GeoCaching_Peilen.ViewModel;
+using AMP.GeoCachingTools.ViewModel;
 
-namespace AMP_GeoCaching_Peilen
+namespace AMP.GeoCachingTools
 {
 
     public partial class MainPage : Page

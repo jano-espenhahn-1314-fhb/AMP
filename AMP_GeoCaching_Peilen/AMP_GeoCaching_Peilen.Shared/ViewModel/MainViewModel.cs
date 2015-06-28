@@ -1,6 +1,6 @@
 using GalaSoft.MvvmLight;
 
-namespace AMP_GeoCaching_Peilen.ViewModel
+namespace AMP.GeoCachingTools.ViewModel
 {
     /// <summary>
     /// This class contains properties that the main View can data bind to.

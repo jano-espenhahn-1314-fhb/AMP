@@ -8,7 +8,7 @@
   <mp:PhoneIdentity PhoneProductId="bcab3541-2f54-4b3d-b488-dd7e6ea0a469" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>AMP_GeoCaching_Peilen.WindowsPhone</DisplayName>
+    <DisplayName>AMP.GeoCachingTools.WindowsPhone</DisplayName>
     <PublisherDisplayName>Jano</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -25,12 +25,12 @@
   <Applications>
     <Application Id="App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="AMP_GeoCaching_Peilen.WindowsPhone.App">
+        EntryPoint="AMP.GeoCachingTools.WindowsPhone.App">
         <m3:VisualElements
-            DisplayName="AMP_GeoCaching_Peilen.WindowsPhone"
+            DisplayName="AMP.GeoCachingTools.WindowsPhone"
             Square150x150Logo="Assets\Logo.png"
             Square44x44Logo="Assets\SmallLogo.png"
-            Description="AMP_GeoCaching_Peilen.WindowsPhone"
+            Description="AMP.GeoCachingTools.WindowsPhone"
             ForegroundText="light"
             BackgroundColor="transparent">
             <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png"/>

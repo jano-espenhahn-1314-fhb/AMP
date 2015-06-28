@@ -3,7 +3,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace AMP_GeoCaching_Peilen.Model
+namespace AMP.GeoCachingTools.Model
 {
     public class Item : BaseINPC
     {

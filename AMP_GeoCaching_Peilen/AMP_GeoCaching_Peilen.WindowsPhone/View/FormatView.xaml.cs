@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 // Die Elementvorlage "Benutzersteuerelement" ist unter http://go.microsoft.com/fwlink/?LinkId=234236 dokumentiert.
 
-namespace AMP_GeoCaching_Peilen.View
+namespace AMP.GeoCachingTools.View
 {
     public partial class FormatView : UserControl
     {
