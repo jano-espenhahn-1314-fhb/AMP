@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using AMP.GeoCachingTools.ViewModel;
+using AMP_GeoCaching_Peilen;
 
 namespace AMP.GeoCachingTools
 {
@@ -20,12 +21,15 @@ namespace AMP.GeoCachingTools
     public partial class MainPage : Page
     {
 
+        private BaseViewModel bvm;
+
         public MainPage()
         {
             this.InitializeComponent();
 
+            bvm = new BaseViewModel();
             //Set the data context of the window
-            DataContext = new ComboBoxViewModel();
+            DataContext = bvm;
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -38,6 +42,16 @@ namespace AMP.GeoCachingTools
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+        }
+
+        private void BerechnePosition(object sender, RoutedEventArgs e)
+        {
+            bvm.BerechnePosition();
+
+            Frame.Navigate(typeof(TargetPage));
+
+            // for later
+            // Frame.Navigate(typeof(TargetPage), param);
         }
     }
 }
