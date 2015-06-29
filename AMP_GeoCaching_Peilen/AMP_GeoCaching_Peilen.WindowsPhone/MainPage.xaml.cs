@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using AMP.GeoCachingTools.ViewModel;
-using AMP_GeoCaching_Peilen;
+using AMP.GeoCachingTools;
 
 namespace AMP.GeoCachingTools
 {
@@ -46,7 +46,7 @@ namespace AMP.GeoCachingTools
 
         private void BerechnePosition(object sender, RoutedEventArgs e)
         {
-            bvm.BerechnePosition();
+            //bvm.BerechnePosition();
 
             Frame.Navigate(typeof(TargetPage));
 

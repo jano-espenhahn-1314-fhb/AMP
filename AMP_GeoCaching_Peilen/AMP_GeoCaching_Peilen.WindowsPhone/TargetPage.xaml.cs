@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMP.GeoCachingTools.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,16 +17,25 @@ using Windows.UI.Xaml.Navigation;
 
 // Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkID=390556 dokumentiert.
 
-namespace AMP_GeoCaching_Peilen
+namespace AMP.GeoCachingTools
 {
     /// <summary>
     /// Eine leere Seite, die eigenständig verwendet werden kann oder auf die innerhalb eines Rahmens navigiert werden kann.
     /// </summary>
-    public sealed partial class TargetPage : Page
+    public partial class TargetPage : Page
     {
+        private BaseViewModel bvm;
+
         public TargetPage()
         {
             this.InitializeComponent();
+
+            bvm = new BaseViewModel();
+
+            bvm.BerechnePosition();
+
+            //Set the data context of the window
+            DataContext = bvm;
         }
 
         /// <summary>
