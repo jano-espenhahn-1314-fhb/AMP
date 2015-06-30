@@ -22,7 +22,7 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public Exception LocationException { get; set; }
 
-        public bool LocationSettingIsActive = true;
+        public bool LocationSettingIsActive;
 
         public BaseViewModel()
         {
@@ -80,34 +80,37 @@ namespace AMP.GeoCachingTools.ViewModel
         }
 
         public async void getPosition()
-        {
+        {   
+            // Default values
+            LocationSettingIsActive = true;
+            LocationException = null;
+
             Geolocator geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 100;
 
-            try
+            if (geolocator.LocationStatus == PositionStatus.Disabled)
             {
-                Geoposition geoposition = await geolocator.GetGeopositionAsync(
-                     maximumAge: TimeSpan.FromMinutes(5),
-                     timeout: TimeSpan.FromSeconds(10)
-                    );
-
-                this.initialLongitude.Coordinate = (geoposition.Coordinate.Longitude.ToString("0.000000") + "°");
-                this.initialLatitude.Coordinate = (geoposition.Coordinate.Latitude.ToString("0.000000") + "°");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                // ToDo -> Abfangen des Fehlers -> keine Ortung eingeschaltet
                 LocationSettingIsActive = false;
-                LocationException = ex;
-                System.Diagnostics.Debug.WriteLine("Fehler : " + ex.Message.ToString());
-            }
-            catch (Exception ex)
-            {
-                LocationException = ex;
-                System.Diagnostics.Debug.WriteLine("Fehler : " + ex.Message.ToString());
-            }
+                LocationException = new Exception();
+            } 
+            else
+            { 
+                try
+                {
+                    Geoposition geoposition = await geolocator.GetGeopositionAsync(
+                         maximumAge: TimeSpan.FromMinutes(5),
+                         timeout: TimeSpan.FromSeconds(10)
+                        );
 
-
+                    this.initialLongitude.Coordinate = (geoposition.Coordinate.Longitude.ToString("0.000000") + "°");
+                    this.initialLatitude.Coordinate = (geoposition.Coordinate.Latitude.ToString("0.000000") + "°");
+                }
+                catch (Exception ex)
+                {
+                    LocationException = ex;
+                    System.Diagnostics.Debug.WriteLine("Fehler : " + ex.Message.ToString());
+                }
+            }
         }
 
     }

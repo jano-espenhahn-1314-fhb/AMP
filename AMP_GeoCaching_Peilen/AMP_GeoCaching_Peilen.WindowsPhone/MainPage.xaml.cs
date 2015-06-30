@@ -54,7 +54,7 @@ namespace AMP.GeoCachingTools
 
         private async void getPosition(object sender, RoutedEventArgs e)
         {
-            string messageDialogTitle = "Fehler bei Ortung!";
+            string messageDialogTitle;
             string messageDialogContent;
 
             bvm.getPosition();
@@ -63,18 +63,18 @@ namespace AMP.GeoCachingTools
             {
                 if (!bvm.LocationSettingIsActive)
                 {
-                    // TODO: Überlegung, hier vielleicht besser Nutzer direkt in die Einstellungen zu schicken?
+                    messageDialogTitle = "Ortung inaktiv!";
                     messageDialogContent = "Bitte aktivieren Sie die Ortung in den Einstellungen.";
                 }
                 else
                 {
+                    messageDialogTitle = "Fehler bei Ortung!";
                     messageDialogContent = "Es ist ein Fehler bei der Ortung aufgetreten.";
                 }
 
                 MessageDialog msg = new MessageDialog(messageDialogContent, messageDialogTitle);
 
                 msg.Commands.Add(new UICommand("Ok", new UICommandInvokedHandler(CommandHandlers)));
-                msg.Commands.Add(new UICommand("Schliessen", new UICommandInvokedHandler(CommandHandlers)));
 
                 await msg.ShowAsync();
             }
@@ -92,10 +92,7 @@ namespace AMP.GeoCachingTools
             switch (Actions)
             {
                 case "Ok":
-                    // TODO
-                    break;
-                case "Schliessen":
-                    Application.Current.Exit();
+                    // nothing to do
                     break;
             }
         }
