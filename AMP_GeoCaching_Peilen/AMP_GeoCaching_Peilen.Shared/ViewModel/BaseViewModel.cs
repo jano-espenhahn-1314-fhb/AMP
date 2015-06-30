@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using AMP.GeoCachingTools.Model;
 using System.ComponentModel;
 using System.Linq;
-using AMP.GeoCachingTools.Model;
 
 namespace AMP.GeoCachingTools.ViewModel
 {
@@ -49,9 +48,9 @@ namespace AMP.GeoCachingTools.ViewModel
         private void GetItems()
         {
             // Fill the ComboBox with Items
-            this.Items.Add(new Item() { Name = "N50°25.123', E006°45.000'", Value = "1" });
-            this.Items.Add(new Item() { Name = "N50.418716° , E006.750000°", Value = "2 " });
-            this.Items.Add(new Item() { Name = "N50°25' 07.4'', E006°45' 00.0''", Value = "3" });
+            this.Items.Add(new Item() { Name = "50°25.123', 006°45.000'", Value = "1" });
+            this.Items.Add(new Item() { Name = "50.418716° , 006.750000°", Value = "2 " });
+            this.Items.Add(new Item() { Name = "50°25' 07.4'', 006°45' 00.0''", Value = "3" });
         }
 
         public void BerechnePosition()
@@ -66,10 +65,14 @@ namespace AMP.GeoCachingTools.ViewModel
 
             double deltaLongitude = ((distance / 1853) * Math.Cos(direction)) * (180 / Math.PI);
 
+            System.Diagnostics.Debug.WriteLine("deltaLongitude = " + deltaLongitude.ToString());
+
             // Target-coordinate: longitude
             double longi = longitude + deltaLongitude;
 
             double deltaLatitude = (distance / 1853) * (Math.Sin(direction) / Math.Cos(longitude + longi));
+
+            System.Diagnostics.Debug.WriteLine("deltaLatitude = " + deltaLatitude.ToString());
 
             // Target-coordinate: latitude
             double lati = latitude + deltaLatitude;
