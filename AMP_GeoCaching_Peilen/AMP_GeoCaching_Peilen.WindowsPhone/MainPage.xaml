@@ -108,22 +108,24 @@
                    Text="Geokoordinaten:" 
                    VerticalAlignment="Top" 
                    FontSize="15"/>
-        <TextBox   Name="tBox_Latitude"
+        <TextBox   Name="tBox_initialLatitude"
                    HorizontalAlignment="Left" 
                    Margin="151,257,0,0" 
                    PlaceholderText="Breitengrad"
                    VerticalAlignment="Top" 
                    Height="18" 
                    Width="107"  
-                   Style="{StaticResource TextBoxStyle}"/>
-        <TextBox   Name="tBox_Longitude"
+                   Style="{StaticResource TextBoxStyle}"
+                   Text="{Binding initialLatitude.Coordinate, Mode=TwoWay}"/>
+        <TextBox   Name="tBox_initialLongitude"
                    HorizontalAlignment="Left" 
                    Margin="273,257,0,0" 
                    PlaceholderText="Längengrad" 
                    VerticalAlignment="Top" 
                    Height="33" 
                    Width="108"
-                   Style="{StaticResource TextBoxStyle}"/>
+                   Style="{StaticResource TextBoxStyle}"
+                   Text="{Binding initialLongitude.Coordinate, Mode=TwoWay}"/>
         <TextBlock HorizontalAlignment="Left" 
                    Margin="20,316,0,0" 
                    TextWrapping="Wrap" 
@@ -146,7 +148,7 @@
         	       Text="Entfernung:" 
         	       VerticalAlignment="Top" 
         	       FontSize="15"/>
-        <TextBox   x:Name="tBox_Distance"
+        <TextBox   Name="tBox_Distance"
         	       HorizontalAlignment="Left" 
         	       Margin="151,159,0,0" 
         	       PlaceholderText="in Meter"
@@ -160,7 +162,7 @@
         	       Text="Richtung:" 
         	       VerticalAlignment="Top" 
         	       FontSize="15"/>
-        <TextBox   x:Name="tBox_Direction"
+        <TextBox   Name="tBox_Direction"
         	       HorizontalAlignment="Left" 
         	       Margin="151,209,0,0" 
         	       PlaceholderText="in °"
@@ -184,7 +186,7 @@
         	       Text="Ziel-koordinaten:" 
         	       VerticalAlignment="Top" 
         	       FontSize="15"/>
-        <TextBox   x:Name="tBox_TargetLatitude"
+        <TextBox   Name="tBox_TargetLatitude"
         	       HorizontalAlignment="Left" 
         	       Margin="151,476,0,0" 
         	       PlaceholderText="Breitengrad"
@@ -194,7 +196,7 @@
         	       Style="{StaticResource TextBoxStyle}" 
                    IsReadOnly="True"
                    Text="{Binding targetLatitude.Coordinate}"/>
-        <TextBox   x:Name="tBox_TargetLongitude"
+        <TextBox   Name="tBox_TargetLongitude"
         	       HorizontalAlignment="Left" 
         	       Margin="273,476,0,0" 
         	       PlaceholderText="Längengrad" 

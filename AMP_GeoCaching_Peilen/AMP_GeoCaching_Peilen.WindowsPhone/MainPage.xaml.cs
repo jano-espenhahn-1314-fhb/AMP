@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using AMP.GeoCachingTools.ViewModel;
 using AMP.GeoCachingTools;
 using Windows.Devices.Geolocation;
+using Windows.UI.Popups;
 
 namespace AMP.GeoCachingTools
 {
@@ -47,30 +48,34 @@ namespace AMP.GeoCachingTools
 
         private void berechnePosition(object sender, RoutedEventArgs e)
         {
-            bvm.BerechnePosition();
+            bvm.berechnePosition();
         }
+
 
         private async void getPosition(object sender, RoutedEventArgs e)
         {
-            Geolocator geolocator = new Geolocator();
-            geolocator.DesiredAccuracyInMeters = 100;
+            string messageDialogTitle = "Fehler bei Ortung!";
+            string messageDialogContent;
 
-            try
-            {
-                Geoposition geoposition = await geolocator.GetGeopositionAsync(
-                     maximumAge: TimeSpan.FromMinutes(5),
-                     timeout: TimeSpan.FromSeconds(10)
-                    );
+            bvm.getPosition();
 
-                //With this 2 lines of code, the app is able to write on a Text Label the Latitude and the Longitude
-                tBox_Longitude.Text = (geoposition.Coordinate.Longitude.ToString("0.000000") + "°");
-                tBox_Latitude.Text = (geoposition.Coordinate.Latitude.ToString("0.000000") + "°");
-            }
-            //If an error is catch 2 are the main causes: the first is that you forgot to include ID_CAP_LOCATION in your app manifest. 
-            //The second is that the user doesn't turned on the Location Services
-            catch (Exception ex)
+            if (bvm.LocationException != null)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
+                if (!bvm.LocationSettingIsActive)
+                {
+                    messageDialogContent = "Bitte aktivieren Sie die Ortung in den Einstellungen.";
+                }
+                else
+                {
+                    messageDialogContent = "Es ist ein Fehler bei der Ortung aufgetreten.";
+                }
+
+                MessageDialog msg = new MessageDialog(messageDialogContent, messageDialogTitle);
+
+                msg.Commands.Add(new UICommand("Ok", new UICommandInvokedHandler(CommandHandlers)));
+                msg.Commands.Add(new UICommand("Schliessen", new UICommandInvokedHandler(CommandHandlers)));
+
+                await msg.ShowAsync();
             }
 
         }
@@ -78,6 +83,20 @@ namespace AMP.GeoCachingTools
         private void delete(object sender, RoutedEventArgs e)
         {
             init();
+        }
+
+        public void CommandHandlers(IUICommand commandLabel)
+        {
+            var Actions = commandLabel.Label;
+            switch (Actions)
+            {
+                case "Ok":
+                    // TODO
+                    break;
+                case "Schliessen":
+                    Application.Current.Exit();
+                    break;
+            }
         }
     }
 }
