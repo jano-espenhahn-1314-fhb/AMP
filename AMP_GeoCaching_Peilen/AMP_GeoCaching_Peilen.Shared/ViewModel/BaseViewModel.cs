@@ -96,6 +96,7 @@ namespace AMP.GeoCachingTools.ViewModel
             }
             catch (UnauthorizedAccessException ex)
             {
+                // ToDo -> Abfangen des Fehlers -> keine Ortung eingeschaltet
                 LocationSettingIsActive = false;
                 LocationException = ex;
                 System.Diagnostics.Debug.WriteLine("Fehler : " + ex.Message.ToString());

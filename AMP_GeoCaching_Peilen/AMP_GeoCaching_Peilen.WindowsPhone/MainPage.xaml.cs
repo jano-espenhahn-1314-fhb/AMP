@@ -63,6 +63,7 @@ namespace AMP.GeoCachingTools
             {
                 if (!bvm.LocationSettingIsActive)
                 {
+                    // TODO: Überlegung, hier vielleicht besser Nutzer direkt in die Einstellungen zu schicken?
                     messageDialogContent = "Bitte aktivieren Sie die Ortung in den Einstellungen.";
                 }
                 else
