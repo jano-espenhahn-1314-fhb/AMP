@@ -12,12 +12,22 @@ namespace AMP.GeoCachingTools.Model
 
         public string Coordinate
         {
-            get { return this._coordinate; }
+            get { return _coordinate; }
             set
             {
-                this._coordinate = value;
-                RaisePropertyChanged("Coordinate");
+                _coordinate = value;
+                NotifyPropertyChanged("Coordinate");
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is GeoCoordinate && ((GeoCoordinate)obj).Coordinate.Equals(Coordinate);
+        }
+
+        public override int GetHashCode()
+        {
+            return Coordinate.GetHashCode();
         }
    }
 }

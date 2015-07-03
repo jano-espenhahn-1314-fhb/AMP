@@ -13,11 +13,11 @@ namespace AMP.GeoCachingTools.Model
         // The name of the item.
         public string Name
         {
-            get { return this._name; }
+            get { return _name; }
             set
             {
-                this._name = value;
-                RaisePropertyChanged("Name");
+                _name = value;
+                NotifyPropertyChanged("Name");
             }
         }
 
@@ -26,11 +26,11 @@ namespace AMP.GeoCachingTools.Model
         // The Value of the item.
         public string Value
         {
-            get { return this._value; }
+            get { return _value; }
             set
             {
-                this._value = value;
-                RaisePropertyChanged("Value");
+                _value = value;
+                NotifyPropertyChanged("Value");
             }
         }
 

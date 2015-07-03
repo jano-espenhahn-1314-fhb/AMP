@@ -17,7 +17,7 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public TextBoxViewModel()
         {
-            this.fillLists();
+            fillLists();
         }
 
         // TODO 1: Fehlerbehandlung: Eingabe Checkboxen 

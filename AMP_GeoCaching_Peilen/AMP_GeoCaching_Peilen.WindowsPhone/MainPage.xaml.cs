@@ -32,13 +32,14 @@ namespace AMP.GeoCachingTools
 
         private void init()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             bvm = new BaseViewModel();
+
             //Set the data context of the window
             DataContext = bvm;
 
-            this.NavigationCacheMode = NavigationCacheMode.Required;
+            NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -48,7 +49,7 @@ namespace AMP.GeoCachingTools
 
         private void berechnePosition(object sender, RoutedEventArgs e)
         {
-            bvm.berechnePosition();
+            bvm.berechnePosition(tBox_initialLongitude.Text, tBox_initialLatitude.Text, tBox_Distance.Text, tBox_Direction.Text);
         }
 
 

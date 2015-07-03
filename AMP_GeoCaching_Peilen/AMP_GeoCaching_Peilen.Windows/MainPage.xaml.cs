@@ -24,7 +24,7 @@ namespace AMP.GeoCachingTools
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }
