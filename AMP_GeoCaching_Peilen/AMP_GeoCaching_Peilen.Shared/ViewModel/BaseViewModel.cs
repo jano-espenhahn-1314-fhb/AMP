@@ -26,8 +26,6 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public string direction { get; set; }
 
-        public bool LocationSettingIsActive;
-
         private Item _selectedItem;
         public Item SelectedItem
         {
@@ -56,9 +54,12 @@ namespace AMP.GeoCachingTools.ViewModel
         // Fill the ComboBox with Items
         private void GetItems()
         {
-            Items.Add(new Item() { Name = "50°25.123', 006°45.000'", Value = "1" });
-            Items.Add(new Item() { Name = "50.418716° , 006.750000°", Value = "2 " });
-            Items.Add(new Item() { Name = "50°25' 07.4'', 006°45' 00.0''", Value = "3" });
+            // Degrees, Minutes, Decimal Minutes Format
+            Items.Add(new Item() { Name = "52° 31.249', 13° 24.567'", Value = "52° 31.249'" });
+            // Decimal Degrees Format
+            Items.Add(new Item() { Name = "52.520817, 13.40945", Value = "52.520817" });
+            // Degres, Minutes, Seconds Format
+            Items.Add(new Item() { Name = "52° 31' 14.941'', 13° 24' 34.020''", Value = "52° 31' 14.941''" });
         }
 
         /*
@@ -66,64 +67,99 @@ namespace AMP.GeoCachingTools.ViewModel
          */
         public void calculatePosition()
         {
-            // Default Values
+            // Default = no exception
             Exception = null;
 
             // Helper
-            double longitude;
-            double latitude;
-            double dist;
-            double dire;
+            double longitude = -1;
+            double latitude = -1;
+            double dist = -1;
+            double dire = -1;
+            bool isCalculable = false;
 
             // Check the values of the Textboxes
             tbvm = new TextBoxViewModel(initialCoordinate, distance, direction);
-            tbvm.checkEmptyTextboxes();
+            tbvm.checkTextboxes();
 
-            if (tbvm.emptyFields != null)
+            if (tbvm.emptyFields.Count > 0)
             {
-                // Blank Exception - only for Exceptionhandling in the View
-                Exception = new Exception();
+                // Exception for exceptionhandling in the view
+                Exception = new Exception("emptyFields");
             }
             else
             {
-                // Bind to/from UI and parse values
-                Double.TryParse(initialCoordinate.LongitudeCoordinate, out longitude);
-                Double.TryParse(initialCoordinate.LatitudeCoordinate, out latitude);
-                Double.TryParse(distance, out dist);
-                Double.TryParse(direction, out dire);
+                // Bind to/from UI
+                for (int counter = 0; counter < tbvm.validatedValues.Count(); counter++)
+                {
+                    if (tbvm.validatedValues[counter] == -1)
+                    {
+                        Exception = new Exception("wrongValue");
+                        break;
+                    }
 
-                /*
+                    if (counter == 0)
+                    {
+                        longitude = tbvm.validatedValues[counter];
+                    }
+                    else if (counter == 1)
+                    {
+                        latitude = tbvm.validatedValues[counter];
+                    }
+                    else if (counter == 2)
+                    {
+                        dist = tbvm.validatedValues[counter];
+                    }
+                    else if (counter == 3)
+                    {
+                        dire = tbvm.validatedValues[counter];
+                        isCalculable = true;
+                    }
+                }
+                
+                // if all values are correct, than it's calculabe
+                if (isCalculable)
+                {
+                    calculatePosition(longitude, latitude, dist, dire);
+                } 
+                else
+                {
+                    targetCoordinate.LongitudeCoordinate = "";
+                    targetCoordinate.LatitudeCoordinate = "";
+                }
+            }
+        }
+
+        private void calculatePosition(double longitude, double latitude, double dist, double dire)
+        {
+            /*
                  * Distance = ((way from initial to target) / (radius of the earth)) * ((180 * 60') / PI)
                  *          =  (way from initial to target) / (1853m)
                  */
-                dist = (dist / 1853);
+            dist = (dist / 1853);
 
-                // DeltaLongitude = ((way from initial to target) / (1853m)) * (cos(direction)) 
-                double deltaLongitude = (dist * Math.Cos(dire)) * (180 / Math.PI);
+            // DeltaLongitude = ((way from initial to target) / (1853m)) * (cos(direction)) 
+            double deltaLongitude = (dist * Math.Cos(dire)) * (180 / Math.PI);
 
-                // Target-coordinate: initial longitude + deltaLongitude
-                double longi = longitude + deltaLongitude;
+            // Target-coordinate: initial longitude + deltaLongitude
+            double longi = longitude + deltaLongitude;
 
-                // DeltaLongitude = ((way from initial to target) / (1853m)) * (sin(direction)/cos(initial longitude + deltaLongitude)
-                double deltaLatitude = dist * (Math.Sin(dire) / Math.Cos(longi));
+            // DeltaLongitude = ((way from initial to target) / (1853m)) * (sin(direction)/cos(initial longitude + deltaLongitude)
+            double deltaLatitude = dist * (Math.Sin(dire) / Math.Cos(longi));
 
-                // Target-coordinate: initial latitude + deltaLatitude
-                double lati = latitude + deltaLatitude;
+            // Target-coordinate: initial latitude + deltaLatitude
+            double lati = latitude + deltaLatitude;
 
-                // Bind to UI
-                targetCoordinate.LongitudeCoordinate = longi.ToString();
-                targetCoordinate.LatitudeCoordinate = lati.ToString();
-            }
-
+            // Bind to UI
+            targetCoordinate.LongitudeCoordinate = longi.ToString();
+            targetCoordinate.LatitudeCoordinate = lati.ToString();
         }
 
         /*
          * Get the actual Geoposition, if Locationsetting is active
          */
         public async void getPosition()
-        {   
-            // Default values
-            LocationSettingIsActive = true;
+        {
+            // Default = no exception
             Exception = null;
 
             Geolocator geolocator = new Geolocator();
@@ -131,10 +167,8 @@ namespace AMP.GeoCachingTools.ViewModel
 
             if (geolocator.LocationStatus == PositionStatus.Disabled)
             {
-                LocationSettingIsActive = false;
-
-                // Blank Exception - only for Exceptionhandling in the View
-                Exception = new Exception();
+                // Exception for exceptionhandling in the view
+                Exception = new Exception("LocationSettingIsDisabled");
             } 
             else
             { 

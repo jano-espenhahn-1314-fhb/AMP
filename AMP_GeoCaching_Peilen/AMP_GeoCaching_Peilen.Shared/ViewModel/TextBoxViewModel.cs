@@ -19,41 +19,87 @@ namespace AMP.GeoCachingTools.ViewModel
 
         private string direction { get; set; }
 
+        private List<string> values = new List<string>();
+
         public List<string> emptyFields { get; set; }
+
+        public List<double> validatedValues = new List<double>();
 
         public TextBoxViewModel(GeoCoordinate initialCoordinate, string distance, string direction)
         {
             this.initialCoordinate = initialCoordinate;
             this.distance = distance;
             this.direction = direction;
+
+            values.Add(initialCoordinate.LongitudeCoordinate);
+            values.Add(initialCoordinate.LatitudeCoordinate);
+            values.Add(distance);
+            values.Add(direction);
+        }
+        
+        public void checkTextboxes()
+        {
+            if (!checkEmptyTextboxes())
+            {
+                foreach (string value in values)
+                {
+                    validateDoubleValue(value);
+                }
+            }
+
+        }
+
+        private void validateDoubleValue(string value)
+        {
+            double doubleValue;
+
+            // check and parse values
+            if (Double.TryParse(value, out doubleValue))
+            {
+                validatedValues.Add(doubleValue);
+            }
+            else
+            {
+                validatedValues.Add(-1);
+            }
         }
 
         // Simple check, if fields are empty
-        public void checkEmptyTextboxes()
+        private bool checkEmptyTextboxes()
         {
+            bool isEmpty = false;
+
             emptyFields = new List<string>();
 
             if (distance == null)
             {
                 emptyFields.Add("Entfernung");
+                isEmpty = true;
+                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Entfernung");
             }
 
             if (direction == null)
             {
                 emptyFields.Add("Richtung");
+                isEmpty = true;
+                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Richtung");
             }
 
             if (initialCoordinate.LongitudeCoordinate == null)
             {
                 emptyFields.Add("Breitengrad");
+                isEmpty = true;
+                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Breitengrad");
             }
 
             if (initialCoordinate.LatitudeCoordinate == null)
             {
                 emptyFields.Add("Längengrad");
+                isEmpty = true;
+                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Längengrad");
             }
 
+            return isEmpty;
         }
-
     }
 }

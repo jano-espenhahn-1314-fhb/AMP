@@ -7,8 +7,8 @@
     <ProjectGuid>{DC9BE048-0154-41E6-92DD-AD88B36D3176}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AMP_GeoCaching_Peilen</RootNamespace>
-    <AssemblyName>AMP_GeoCaching_Peilen.WindowsPhone</AssemblyName>
+    <RootNamespace>AMP.GeoCachingTools.Peilen</RootNamespace>
+    <AssemblyName>AMP.GeoCachingTools.Peilen.WindowsPhone</AssemblyName>
     <DefaultLanguage>de-DE</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>

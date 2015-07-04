@@ -24,7 +24,7 @@ namespace AMP.GeoCachingTools
         private BaseViewModel bvm;
 
         private string messageDialogTitle;
-        
+
         private string messageDialogContent;
 
         public MainPage()
@@ -54,51 +54,61 @@ namespace AMP.GeoCachingTools
         {
             bvm.calculatePosition();
 
-            // Exceptionhandling for empty fields
             if (bvm.Exception != null)
             {
-                string dialogHelper;
-                string dialogHelperVerb;
-
-                if (bvm.tbvm.emptyFields.Count == 1)
+                // Exceptionhandling for empty fields
+                if (bvm.Exception.Message.Equals("emptyFields"))
                 {
-                    dialogHelper = "Das Feld ";
-                    dialogHelperVerb = " ist ";
+                    string dialogHelper;
+                    string dialogHelperVerb;
 
-                    foreach (string field in bvm.tbvm.emptyFields)
+                    if (bvm.tbvm.emptyFields.Count == 1)
                     {
-                        dialogHelper = dialogHelper + field;
+                        dialogHelper = "Das Feld ";
+                        dialogHelperVerb = " ist ";
+
+                        foreach (string field in bvm.tbvm.emptyFields)
+                        {
+                            dialogHelper = dialogHelper + field;
+                        }
                     }
+                    else
+                    {
+                        dialogHelper = "Die Felder ";
+                        dialogHelperVerb = " sind ";
+
+                        int length = bvm.tbvm.emptyFields.Count - 1;
+
+                        for (int counter = 0; counter <= length; counter++)
+                        {
+                            if (counter < length - 1)
+                            {
+                                dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + ", ";
+                            }
+                            else if (counter == length - 1)
+                            {
+                                dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + " und ";
+                            }
+                            else
+                            {
+                                dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter];
+                            }
+
+                        }
+                    }
+
+                    messageDialogTitle = "Ungültige Parametrisierung!";
+                    messageDialogContent = dialogHelper + dialogHelperVerb + "leer. Bitte geben Sie einen Wert ein.";
+
+                    createMessageDialog(messageDialogContent, messageDialogTitle);
                 }
-                else
+                else if (bvm.Exception.Message.Equals("wrongValue"))
                 {
-                    dialogHelper = "Die Felder ";
-                    dialogHelperVerb = " sind ";
+                    messageDialogTitle = "Ungültiger Wert!";
+                    messageDialogContent = "Sie haben einen ungültigen Wert eingegeben. Bitte geben Sie eine Zahl im Format 'x.xx' ein";
 
-                    int length = bvm.tbvm.emptyFields.Count-1;
-
-                    for(int counter = 0; counter <= length; counter++)
-                    {
-                        if (counter < length - 1)
-                        {
-                            dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + ", ";
-                        }
-                        else if (counter == length - 1)
-                        {
-                            dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + " und ";
-                        }
-                        else
-                        {
-                            dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter];
-                        }
-                        
-                    }
+                    createMessageDialog(messageDialogContent, messageDialogTitle);
                 }
-
-                messageDialogTitle = "Ungültige Parametrisierung!";
-                messageDialogContent = dialogHelper + dialogHelperVerb + "leer. Bitte geben Sie einen Wert ein.";
-
-                createMessageDialog(messageDialogContent, messageDialogTitle);
             }
         }
 
@@ -110,7 +120,7 @@ namespace AMP.GeoCachingTools
             // Exceptionhandling for disabled locationsettings or other errors
             if (bvm.Exception != null)
             {
-                if (!bvm.LocationSettingIsActive)
+                if (bvm.Exception.Message.Equals("LocationSettingIsDisabled"))
                 {
                     messageDialogTitle = "Ortung inaktiv!";
                     messageDialogContent = "Bitte aktivieren Sie die Ortung in den Einstellungen.";
