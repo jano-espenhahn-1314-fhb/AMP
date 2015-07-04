@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using AMP.GeoCachingTools.Commons;
 
 namespace AMP.GeoCachingTools.Model
 {

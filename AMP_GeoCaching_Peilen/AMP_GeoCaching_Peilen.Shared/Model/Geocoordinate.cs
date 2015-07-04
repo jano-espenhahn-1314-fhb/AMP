@@ -1,4 +1,4 @@
-﻿using AMP.GeoCachingTools;
+﻿using AMP.GeoCachingTools.Commons;
 using System;
 using System.Collections.Generic;
 using System.Text;

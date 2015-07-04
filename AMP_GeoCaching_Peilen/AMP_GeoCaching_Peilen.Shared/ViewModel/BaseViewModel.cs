@@ -5,6 +5,7 @@ using AMP.GeoCachingTools.Model;
 using System.ComponentModel;
 using System.Linq;
 using Windows.Devices.Geolocation;
+using AMP.GeoCachingTools.Commons;
 
 namespace AMP.GeoCachingTools.ViewModel
 {

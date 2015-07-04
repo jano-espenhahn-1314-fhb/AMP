@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace AMP.GeoCachingTools
+namespace AMP.GeoCachingTools.Commons
 {
     public abstract class BaseINPC : INotifyPropertyChanged  
     {

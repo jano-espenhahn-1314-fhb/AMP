@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using Windows.UI.Xaml;
 using System.Collections.Generic;
+using AMP.GeoCachingTools.Commons;
 
 namespace AMP.GeoCachingTools.ViewModel
 {
@@ -21,7 +22,6 @@ namespace AMP.GeoCachingTools.ViewModel
         }
 
         // TODO 1: Fehlerbehandlung: Eingabe Checkboxen 
-        // TODE 2: Änderung der Texte in Platzhalter bei Änderung Auswahl der Checkboxen
         private void fillLists()
         {
             longitudeList.Add("N50°25.123'");

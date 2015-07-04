@@ -20,7 +20,7 @@ using Windows.UI.Popups;
 namespace AMP.GeoCachingTools
 {
 
-    public partial class MainPage : Page
+    public sealed partial class MainPage : Page
     {
 
         private BaseViewModel bvm;

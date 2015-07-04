@@ -15,7 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)BaseINPC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commons\BaseINPC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GeoCoordinate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\TextBoxViewModel.cs" />
