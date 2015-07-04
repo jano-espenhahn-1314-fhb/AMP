@@ -112,7 +112,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="AMP_GeoCaching_Peilen.Windows_TemporaryKey.pfx" />
+    <None Include="AMP.GeoCachingTools.Peilen.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

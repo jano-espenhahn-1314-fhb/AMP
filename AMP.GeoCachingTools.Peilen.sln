@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AMP_GeoCaching_Peilen", "AMP_GeoCaching_Peilen", "{F65AAF14-0BFD-4FBE-85AE-1BFED9CDF2D9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AMP.GeoCachingTools.Peilen", "AMP.GeoCachingTools.Peilen", "{F65AAF14-0BFD-4FBE-85AE-1BFED9CDF2D9}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AMP_GeoCaching_Peilen.Shared", "AMP_GeoCaching_Peilen\AMP_GeoCaching_Peilen.Shared\AMP_GeoCaching_Peilen.Shared.shproj", "{4161AA75-95D9-40B3-93D2-94227A69B3E3}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AMP.GeoCachingTools.Peilen.Shared", "AMP_GeoCaching_Peilen\AMP_GeoCaching_Peilen.Shared\AMP.GeoCachingTools.Peilen.Shared.shproj", "{4161AA75-95D9-40B3-93D2-94227A69B3E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMP_GeoCaching_Peilen.Windows", "AMP_GeoCaching_Peilen\AMP_GeoCaching_Peilen.Windows\AMP_GeoCaching_Peilen.Windows.csproj", "{967D74BC-5280-42CD-B1B6-818A1719EA4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMP.GeoCachingTools.Peilen.Windows", "AMP_GeoCaching_Peilen\AMP_GeoCaching_Peilen.Windows\AMP.GeoCachingTools.Peilen.Windows.csproj", "{967D74BC-5280-42CD-B1B6-818A1719EA4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMP_GeoCaching_Peilen.WindowsPhone", "AMP_GeoCaching_Peilen\AMP_GeoCaching_Peilen.WindowsPhone\AMP_GeoCaching_Peilen.WindowsPhone.csproj", "{DC9BE048-0154-41E6-92DD-AD88B36D3176}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMP.GeoCachingTools.Peilen.WindowsPhone", "AMP_GeoCaching_Peilen\AMP_GeoCaching_Peilen.WindowsPhone\AMP.GeoCachingTools.Peilen.WindowsPhone.csproj", "{DC9BE048-0154-41E6-92DD-AD88B36D3176}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
