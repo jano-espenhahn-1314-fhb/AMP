@@ -116,7 +116,7 @@
                    Height="18" 
                    Width="107"  
                    Style="{StaticResource TextBoxStyle}"
-                   Text="{Binding initialLatitude.Coordinate, Mode=TwoWay}"/>
+                   Text="{Binding initialCoordinate.LatitudeCoordinate, Mode=TwoWay}"/>
         <TextBox   x:Name="tBox_initialLongitude"
                    HorizontalAlignment="Left" 
                    Margin="273,257,0,0" 
@@ -125,7 +125,7 @@
                    Height="33" 
                    Width="108"
                    Style="{StaticResource TextBoxStyle}"
-                   Text="{Binding initialLongitude.Coordinate, Mode=TwoWay}"/>
+                   Text="{Binding initialCoordinate.LongitudeCoordinate, Mode=TwoWay}"/>
         <TextBlock HorizontalAlignment="Left" 
                    Margin="20,316,0,0" 
                    TextWrapping="Wrap" 
@@ -155,7 +155,8 @@
         	       VerticalAlignment="Top" 
         	       Height="18" 
         	       Width="107" 
-        	       Style="{StaticResource TextBoxStyle}"/>
+        	       Style="{StaticResource TextBoxStyle}"
+                   Text="{Binding distance, Mode=TwoWay}"/>
         <TextBlock HorizontalAlignment="Left" 
         	       Margin="20,214,0,0" 
         	       TextWrapping="Wrap" 
@@ -169,7 +170,8 @@
         	       VerticalAlignment="Top" 
         	       Height="18" 
         	       Width="107" 
-        	       Style="{StaticResource TextBoxStyle}"/>
+        	       Style="{StaticResource TextBoxStyle}"
+                   Text="{Binding direction, Mode=TwoWay}"/>
         <Button    Content="Position" 
                    HorizontalAlignment="Left" 
                    Margin="22,544,0,0" 
@@ -179,7 +181,7 @@
                    HorizontalAlignment="Left" 
                    Margin="148,544,0,0" 
                    VerticalAlignment="Top" 
-                   Click="berechnePosition"/>
+                   Click="calculatePosition"/>
         <TextBlock HorizontalAlignment="Left" 
         	       Margin="20,484,0,0" 
         	       TextWrapping="Wrap" 
@@ -195,7 +197,7 @@
         	       Width="107"  
         	       Style="{StaticResource TextBoxStyle}" 
                    IsReadOnly="True"
-                   Text="{Binding targetLatitude.Coordinate}"/>
+                   Text="{Binding targetCoordinate.LatitudeCoordinate}"/>
         <TextBox   x:Name="tBox_TargetLongitude"
         	       HorizontalAlignment="Left" 
         	       Margin="273,476,0,0" 
@@ -205,7 +207,7 @@
         	       Width="108"
         	       Style="{StaticResource TextBoxStyle}" 
                    IsReadOnly="True"
-                   Text="{Binding targetLongitude.Coordinate}"/>
+                   Text="{Binding targetCoordinate.LongitudeCoordinate}"/>
         <Button    Content="Löschen" 
         	       HorizontalAlignment="Left" 
         	       Margin="275,544,0,0" 

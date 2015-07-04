@@ -8,26 +8,29 @@ namespace AMP.GeoCachingTools.Model
     public class GeoCoordinate : BaseINPC
     {
     
-        private string _coordinate;
+        private string _longitudeCoordinate;
 
-        public string Coordinate
+        public string LongitudeCoordinate
         {
-            get { return _coordinate; }
+            get { return _longitudeCoordinate; }
             set
             {
-                _coordinate = value;
-                NotifyPropertyChanged("Coordinate");
+                _longitudeCoordinate = value;
+                NotifyPropertyChanged("LongitudeCoordinate");
             }
         }
 
-        public override bool Equals(object obj)
+        private string _latitudeCoordinate;
+
+        public string LatitudeCoordinate
         {
-            return obj is GeoCoordinate && ((GeoCoordinate)obj).Coordinate.Equals(Coordinate);
+            get { return _latitudeCoordinate; }
+            set
+            {
+                _latitudeCoordinate = value;
+                NotifyPropertyChanged("LatitudeCoordinate");
+            }
         }
 
-        public override int GetHashCode()
-        {
-            return Coordinate.GetHashCode();
-        }
    }
 }

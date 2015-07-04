@@ -15,13 +15,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
-
 namespace AMP.GeoCachingTools
 {
-    /// <summary>
-    /// Eine leere Seite, die eigenständig verwendet werden kann oder auf die innerhalb eines Frames navigiert werden kann.
-    /// </summary>
+
     public sealed partial class MainPage : Page
     {
         private BaseViewModel bvm;
@@ -48,9 +44,9 @@ namespace AMP.GeoCachingTools
             base.OnNavigatedTo(e);
         }
 
-        private void berechnePosition(object sender, RoutedEventArgs e)
+        private void calculatePosition(object sender, RoutedEventArgs e)
         {
-            bvm.berechnePosition(tBox_initialLongitude.Text, tBox_initialLatitude.Text, tBox_Distance.Text, tBox_Direction.Text);
+            bvm.calculatePosition();
         }
 
 

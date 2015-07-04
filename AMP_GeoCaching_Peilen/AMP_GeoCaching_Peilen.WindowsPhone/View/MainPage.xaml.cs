@@ -47,9 +47,9 @@ namespace AMP.GeoCachingTools
             base.OnNavigatedTo(e);
         }
 
-        private void berechnePosition(object sender, RoutedEventArgs e)
+        private void calculatePosition(object sender, RoutedEventArgs e)
         {
-            bvm.berechnePosition(tBox_initialLongitude.Text, tBox_initialLatitude.Text, tBox_Distance.Text, tBox_Direction.Text);
+            bvm.calculatePosition();
         }
 
 

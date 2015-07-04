@@ -13,32 +13,17 @@ namespace AMP.GeoCachingTools.ViewModel
     {
         public ObservableCollection<Item> Items { get; set; }
 
-        public GeoCoordinate initialLongitude { get; set; }
+        public GeoCoordinate initialCoordinate { get; set; }
 
-        public GeoCoordinate initialLatitude { get; set; }
+        public GeoCoordinate targetCoordinate { get; set; }
+
+        public Exception LocationException { get; set; }
 
         public string distance { get; set; }
 
         public string direction { get; set; }
 
-        public GeoCoordinate targetLongitude { get; set; }
-
-        public GeoCoordinate targetLatitude { get; set; }
-
-        public Exception LocationException { get; set; }
-
         public bool LocationSettingIsActive;
-
-        public BaseViewModel()
-        {
-            // Actions for combobox at first page
-            Items = new ObservableCollection<Item>();
-            GetItems();
-            SelectedItem = Items.FirstOrDefault();
-
-            targetLongitude = new GeoCoordinate();
-            targetLatitude = new GeoCoordinate();
-        }
 
         private Item selectedItem;
         public Item SelectedItem
@@ -51,6 +36,20 @@ namespace AMP.GeoCachingTools.ViewModel
             }
         }
 
+        /*
+         * Default constructor
+         */
+        public BaseViewModel()
+        {
+            // Actions for combobox at first page
+            Items = new ObservableCollection<Item>();
+            GetItems();
+            SelectedItem = Items.FirstOrDefault();
+
+            initialCoordinate = new GeoCoordinate();
+            targetCoordinate = new GeoCoordinate();
+        }
+
         // Fill the ComboBox with Items
         private void GetItems()
         {
@@ -59,17 +58,20 @@ namespace AMP.GeoCachingTools.ViewModel
             Items.Add(new Item() { Name = "50°25' 07.4'', 006°45' 00.0''", Value = "3" });
         }
 
-        public void berechnePosition(String initialLongitude, String initialLatitude, String distance, String direction)
+        /*
+         * Calculate the target Geoposition coordinates
+         */
+        public void calculatePosition()
         {
-            // Helper with default values for fallback
-            double longitude = 52.000000;
-            double latitude = 13.000000;
-            double dist = 10000;
-            double dire = 60;
+            // Helper
+            double longitude;
+            double latitude;
+            double dist;
+            double dire;
 
             // Bind to/from UI and parse values
-            Double.TryParse(initialLongitude, out longitude);
-            Double.TryParse(initialLatitude, out latitude);
+            Double.TryParse(initialCoordinate.LongitudeCoordinate, out longitude);
+            Double.TryParse(initialCoordinate.LatitudeCoordinate, out latitude);
             Double.TryParse(distance, out dist);
             Double.TryParse(direction, out dire);
 
@@ -92,10 +94,13 @@ namespace AMP.GeoCachingTools.ViewModel
             double lati = latitude + deltaLatitude;
 
             // Bind to UI
-            targetLongitude.Coordinate = longi.ToString();
-            targetLatitude.Coordinate = lati.ToString();
+            targetCoordinate.LongitudeCoordinate = longi.ToString();
+            targetCoordinate.LatitudeCoordinate = lati.ToString();
         }
 
+        /*
+         * Get the actual Geoposition, if Locationsetting is active
+         */
         public async void getPosition()
         {   
             // Default values
@@ -108,6 +113,8 @@ namespace AMP.GeoCachingTools.ViewModel
             if (geolocator.LocationStatus == PositionStatus.Disabled)
             {
                 LocationSettingIsActive = false;
+
+                // Blank Exception - only for Exceptionhandling in the View
                 LocationException = new Exception();
             } 
             else
@@ -119,8 +126,8 @@ namespace AMP.GeoCachingTools.ViewModel
                          timeout: TimeSpan.FromSeconds(10)
                         );
 
-                    initialLongitude.Coordinate = (geoposition.Coordinate.Longitude.ToString("0.000000") + "°");
-                    initialLatitude.Coordinate = (geoposition.Coordinate.Latitude.ToString("0.000000") + "°");
+                    initialCoordinate.LongitudeCoordinate = (geoposition.Coordinate.Longitude.ToString("0.000000") + "°");
+                    initialCoordinate.LatitudeCoordinate = (geoposition.Coordinate.Latitude.ToString("0.000000") + "°");
                 }
                 catch (Exception ex)
                 {
