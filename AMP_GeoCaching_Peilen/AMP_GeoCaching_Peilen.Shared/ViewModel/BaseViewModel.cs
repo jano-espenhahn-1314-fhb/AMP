@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using Windows.Devices.Geolocation;
 using AMP.GeoCachingTools.Commons;
+using System.Collections.Generic;
 
 namespace AMP.GeoCachingTools.ViewModel
 {
@@ -17,7 +18,9 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public GeoCoordinate targetCoordinate { get; set; }
 
-        public Exception LocationException { get; set; }
+        public Exception Exception { get; set; }
+
+        public TextBoxViewModel tbvm;
 
         public string distance { get; set; }
 
@@ -25,13 +28,13 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public bool LocationSettingIsActive;
 
-        private Item selectedItem;
+        private Item _selectedItem;
         public Item SelectedItem
         {
-            get { return selectedItem; }
+            get { return _selectedItem; }
             set
             {
-                selectedItem = value;
+                _selectedItem = value;
                 NotifyPropertyChanged("Item");
             }
         }
@@ -63,39 +66,55 @@ namespace AMP.GeoCachingTools.ViewModel
          */
         public void calculatePosition()
         {
+            // Default Values
+            Exception = null;
+
             // Helper
             double longitude;
             double latitude;
             double dist;
             double dire;
 
-            // Bind to/from UI and parse values
-            Double.TryParse(initialCoordinate.LongitudeCoordinate, out longitude);
-            Double.TryParse(initialCoordinate.LatitudeCoordinate, out latitude);
-            Double.TryParse(distance, out dist);
-            Double.TryParse(direction, out dire);
+            // Check the values of the Textboxes
+            tbvm = new TextBoxViewModel(initialCoordinate, distance, direction);
+            tbvm.checkEmptyTextboxes();
 
-            /*
-             * Distance = ((way from initial to target) / (radius of the earth)) * ((180 * 60') / PI)
-             *          =  (way from initial to target) / (1853m)
-             */
-            dist = (dist / 1853);
+            if (tbvm.emptyFields != null)
+            {
+                // Blank Exception - only for Exceptionhandling in the View
+                Exception = new Exception();
+            }
+            else
+            {
+                // Bind to/from UI and parse values
+                Double.TryParse(initialCoordinate.LongitudeCoordinate, out longitude);
+                Double.TryParse(initialCoordinate.LatitudeCoordinate, out latitude);
+                Double.TryParse(distance, out dist);
+                Double.TryParse(direction, out dire);
 
-            // DeltaLongitude = ((way from initial to target) / (1853m)) * (cos(direction)) 
-            double deltaLongitude = (dist * Math.Cos(dire)) * (180 / Math.PI);
+                /*
+                 * Distance = ((way from initial to target) / (radius of the earth)) * ((180 * 60') / PI)
+                 *          =  (way from initial to target) / (1853m)
+                 */
+                dist = (dist / 1853);
 
-            // Target-coordinate: initial longitude + deltaLongitude
-            double longi = longitude + deltaLongitude;
+                // DeltaLongitude = ((way from initial to target) / (1853m)) * (cos(direction)) 
+                double deltaLongitude = (dist * Math.Cos(dire)) * (180 / Math.PI);
 
-            // DeltaLongitude = ((way from initial to target) / (1853m)) * (sin(direction)/cos(initial longitude + deltaLongitude)
-            double deltaLatitude = dist * (Math.Sin(dire) / Math.Cos(longi));
+                // Target-coordinate: initial longitude + deltaLongitude
+                double longi = longitude + deltaLongitude;
 
-            // Target-coordinate: initial latitude + deltaLatitude
-            double lati = latitude + deltaLatitude;
+                // DeltaLongitude = ((way from initial to target) / (1853m)) * (sin(direction)/cos(initial longitude + deltaLongitude)
+                double deltaLatitude = dist * (Math.Sin(dire) / Math.Cos(longi));
 
-            // Bind to UI
-            targetCoordinate.LongitudeCoordinate = longi.ToString();
-            targetCoordinate.LatitudeCoordinate = lati.ToString();
+                // Target-coordinate: initial latitude + deltaLatitude
+                double lati = latitude + deltaLatitude;
+
+                // Bind to UI
+                targetCoordinate.LongitudeCoordinate = longi.ToString();
+                targetCoordinate.LatitudeCoordinate = lati.ToString();
+            }
+
         }
 
         /*
@@ -105,7 +124,7 @@ namespace AMP.GeoCachingTools.ViewModel
         {   
             // Default values
             LocationSettingIsActive = true;
-            LocationException = null;
+            Exception = null;
 
             Geolocator geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 100;
@@ -115,7 +134,7 @@ namespace AMP.GeoCachingTools.ViewModel
                 LocationSettingIsActive = false;
 
                 // Blank Exception - only for Exceptionhandling in the View
-                LocationException = new Exception();
+                Exception = new Exception();
             } 
             else
             { 
@@ -131,7 +150,7 @@ namespace AMP.GeoCachingTools.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    LocationException = ex;
+                    Exception = ex;
                     System.Diagnostics.Debug.WriteLine("Fehler : " + ex.Message.ToString());
                 }
             }

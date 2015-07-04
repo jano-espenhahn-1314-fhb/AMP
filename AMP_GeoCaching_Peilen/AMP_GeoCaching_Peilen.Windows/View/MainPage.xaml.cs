@@ -20,13 +20,19 @@ namespace AMP.GeoCachingTools
 
     public sealed partial class MainPage : Page
     {
+
         private BaseViewModel bvm;
+
+        private string messageDialogTitle;
+        
+        private string messageDialogContent;
 
         public MainPage()
         {
             init();
         }
 
+        // Initialize the components; own method because of deletion function in the UI
         private void init()
         {
             InitializeComponent();
@@ -47,17 +53,62 @@ namespace AMP.GeoCachingTools
         private void calculatePosition(object sender, RoutedEventArgs e)
         {
             bvm.calculatePosition();
+
+            // Exceptionhandling for empty fields
+            if (bvm.Exception != null)
+            {
+                string dialogHelper;
+                string dialogHelperVerb;
+
+                if (bvm.tbvm.emptyFields.Count == 1)
+                {
+                    dialogHelper = "Das Feld ";
+                    dialogHelperVerb = " ist ";
+
+                    foreach (string field in bvm.tbvm.emptyFields)
+                    {
+                        dialogHelper = dialogHelper + field;
+                    }
+                }
+                else
+                {
+                    dialogHelper = "Die Felder ";
+                    dialogHelperVerb = " sind ";
+
+                    int length = bvm.tbvm.emptyFields.Count-1;
+
+                    for(int counter = 0; counter <= length; counter++)
+                    {
+                        if (counter < length - 1)
+                        {
+                            dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + ", ";
+                        }
+                        else if (counter == length - 1)
+                        {
+                            dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + " und ";
+                        }
+                        else
+                        {
+                            dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter];
+                        }
+                        
+                    }
+                }
+
+                messageDialogTitle = "Ungültige Parametrisierung!";
+                messageDialogContent = dialogHelper + dialogHelperVerb + "leer. Bitte geben Sie einen Wert ein.";
+
+                createMessageDialog(messageDialogContent, messageDialogTitle);
+            }
         }
 
 
-        private async void getPosition(object sender, RoutedEventArgs e)
+        private void getPosition(object sender, RoutedEventArgs e)
         {
-            string messageDialogTitle;
-            string messageDialogContent;
-
             bvm.getPosition();
 
-            if (bvm.LocationException != null)
+            // Exceptionhandling for disabled locationsettings or other errors
+            if (bvm.Exception != null)
             {
                 if (!bvm.LocationSettingIsActive)
                 {
@@ -70,11 +121,7 @@ namespace AMP.GeoCachingTools
                     messageDialogContent = "Es ist ein Fehler bei der Ortung aufgetreten.";
                 }
 
-                MessageDialog msg = new MessageDialog(messageDialogContent, messageDialogTitle);
-
-                msg.Commands.Add(new UICommand("Ok", new UICommandInvokedHandler(CommandHandlers)));
-
-                await msg.ShowAsync();
+                createMessageDialog(messageDialogContent, messageDialogTitle);
             }
 
         }
@@ -84,7 +131,7 @@ namespace AMP.GeoCachingTools
             init();
         }
 
-        public void CommandHandlers(IUICommand commandLabel)
+        private void CommandHandlers(IUICommand commandLabel)
         {
             var Actions = commandLabel.Label;
             switch (Actions)
@@ -93,6 +140,15 @@ namespace AMP.GeoCachingTools
                     // nothing to do
                     break;
             }
+        }
+
+        private async void createMessageDialog(string messageDialogContent, string messageDialogTitle)
+        {
+            MessageDialog msg = new MessageDialog(messageDialogContent, messageDialogTitle);
+
+            msg.Commands.Add(new UICommand("Ok", new UICommandInvokedHandler(CommandHandlers)));
+
+            await msg.ShowAsync();
         }
     }
 }

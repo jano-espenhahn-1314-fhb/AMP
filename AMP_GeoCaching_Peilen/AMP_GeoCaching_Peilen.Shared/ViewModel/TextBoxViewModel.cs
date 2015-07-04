@@ -12,25 +12,47 @@ namespace AMP.GeoCachingTools.ViewModel
 {
     public class TextBoxViewModel : BaseINPC
     {
-        List<string> longitudeList = new List<string>();
 
-        List<string> latitudeList = new List<string>();
+        private GeoCoordinate initialCoordinate { get; set; }
 
-        public TextBoxViewModel()
+        private string distance { get; set; }
+
+        private string direction { get; set; }
+
+        public List<string> emptyFields { get; set; }
+
+        public TextBoxViewModel(GeoCoordinate initialCoordinate, string distance, string direction)
         {
-            fillLists();
+            this.initialCoordinate = initialCoordinate;
+            this.distance = distance;
+            this.direction = direction;
         }
 
-        // TODO 1: Fehlerbehandlung: Eingabe Checkboxen 
-        private void fillLists()
+        // Simple check, if fields are empty
+        public void checkEmptyTextboxes()
         {
-            longitudeList.Add("N50°25.123'");
-            longitudeList.Add("N50.418716°");
-            longitudeList.Add("N50°25' 07.4''");
+            emptyFields = new List<string>();
 
-            latitudeList.Add("E006°45.000'");
-            latitudeList.Add("E006.750000°");
-            latitudeList.Add("E006°45' 00.0''");
+            if (distance == null)
+            {
+                emptyFields.Add("Entfernung");
+            }
+
+            if (direction == null)
+            {
+                emptyFields.Add("Richtung");
+            }
+
+            if (initialCoordinate.LongitudeCoordinate == null)
+            {
+                emptyFields.Add("Breitengrad");
+            }
+
+            if (initialCoordinate.LatitudeCoordinate == null)
+            {
+                emptyFields.Add("Längengrad");
+            }
+
         }
 
     }
