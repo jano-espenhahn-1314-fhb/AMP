@@ -56,6 +56,8 @@ namespace AMP.GeoCachingTools
 
             if (bvm.Exception != null)
             {
+                System.Diagnostics.Debug.WriteLine("Fehler : " + bvm.Exception.Message.ToString());
+
                 // Exceptionhandling for empty fields
                 if (bvm.Exception.Message.Equals("emptyFields"))
                 {
@@ -106,6 +108,25 @@ namespace AMP.GeoCachingTools
                     messageDialogTitle = "Ungültiger Wert!";
                     messageDialogContent = "Sie haben einen ungültigen Wert eingegeben. Bitte geben Sie eine Zahl im Format 'x.xx' ein.";
                 }
+                else if (bvm.Exception.Message.StartsWith("Degrees"))
+                {
+                    messageDialogTitle = "Ungültiges Format der Geokoordinaten!";
+                    messageDialogContent = "Sie haben ungültige Geokoordinaten eingegeben. Bitte geben Sie Koordinaten im Format ";
+
+                    if (bvm.Exception.Message.Equals("DegreesMinutes"))
+                    {
+                        messageDialogContent += "'xx xx.xxx' ein.";
+                    }
+                    else if (bvm.Exception.Message.Equals("Degrees"))
+                    {
+                        messageDialogContent += "'xx.xxx' ein.";
+                    }
+                    else if (bvm.Exception.Message.Equals("DegreesMinutesSeconds"))
+                    {
+                        messageDialogContent += "'xx xx xx.xxx' ein.";
+                    }
+                }
+                // Exceptionhandling for Degrees in direction between 0° and 360°
                 else if (bvm.Exception.Message.Equals("notInRange"))
                 {
                     messageDialogTitle = "Nicht im Wertebereich!";

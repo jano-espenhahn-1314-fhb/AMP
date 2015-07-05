@@ -13,11 +13,22 @@ namespace AMP_GeoCaching_Peilen.Commons
         {
             double degrees;
             double arcminutes;
-
+            string[] finalValues = new string[2];
             string[] values = coordinate.Split(' ');
+            int length = values.Length;
 
-            Double.TryParse(values[0], out degrees);
-            Double.TryParse(values[1], out arcminutes);
+            for (int count = 0; count < length; count++)
+            {
+                finalValues[count] = values[count];
+            }
+
+            if (length < finalValues.Length)
+            {
+                finalValues[1] = "0";
+            }
+
+            Double.TryParse(finalValues[0], out degrees);
+            Double.TryParse(finalValues[1], out arcminutes);
 
             // Arcminutes / 1000  = solution for decimal and (solution / 60) for decimal degrees
             arcminutes = arcminutes / 1000 / 60;
@@ -33,12 +44,27 @@ namespace AMP_GeoCaching_Peilen.Commons
             double degrees;
             double arcminutes;
             double arcseconds;
-
+            string[] finalValues = new string[3];
             string[] values = coordinate.Split(' ');
+            int length = values.Length;
 
-            Double.TryParse(values[0], out degrees);
-            Double.TryParse(values[1], out arcminutes);
-            Double.TryParse(values[2], out arcseconds);
+            for (int count = 0; count < length; count++)
+            {
+                finalValues[count] = values[count];
+            }
+
+            if (length == 1)
+            {
+                finalValues[1] = "0";
+            }
+            else if (length == 2)
+            {
+                finalValues[2] = "0";
+            }
+
+            Double.TryParse(finalValues[0], out degrees);
+            Double.TryParse(finalValues[1], out arcminutes);
+            Double.TryParse(finalValues[2], out arcseconds);
 
             // Arcseconds / 1000  = solution for decimal and (solution / 60) for arcminutes
             arcseconds = arcseconds / 1000 / 60;

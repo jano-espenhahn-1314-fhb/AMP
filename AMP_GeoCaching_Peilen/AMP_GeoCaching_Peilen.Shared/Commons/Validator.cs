@@ -7,6 +7,8 @@ using System.Linq;
 using Windows.UI.Xaml;
 using System.Collections.Generic;
 using AMP.GeoCachingTools.Commons;
+using System.Text.RegularExpressions;
+using AMP.GeoCachingTools.ViewModel;
 
 namespace AMP.GeoCachingTools.Commons
 {
@@ -31,10 +33,14 @@ namespace AMP.GeoCachingTools.Commons
             this.distance = distance;
             this.direction = direction;
 
-            values.Add(initialCoordinate.LongitudeCoordinate);
-            values.Add(initialCoordinate.LatitudeCoordinate);
             values.Add(distance);
             values.Add(direction);
+        }
+
+        public Validator(GeoCoordinate initialCoordinate)
+        {
+            values.Add(initialCoordinate.LongitudeCoordinate);
+            values.Add(initialCoordinate.LatitudeCoordinate);
         }
         
         public void checkTextboxes()
@@ -101,16 +107,66 @@ namespace AMP.GeoCachingTools.Commons
         {
             bool isInRange = false;
 
-            System.Diagnostics.Debug.WriteLine("Wert ist : " + value.ToString());
-
             if (value >= 0 && value <= 360)
             {
                 isInRange = true;
             }
 
-            System.Diagnostics.Debug.WriteLine("Wert ist : " + isInRange.ToString());
-
             return isInRange;
+        }
+
+        // Main validate method which delegate to submethods with pattern matching
+        public bool validateFormat(string format)
+        {
+            bool isInFormat = true;
+
+            foreach (string value in values)
+            {
+                if (format == BaseViewModel.DegreesMinutes)
+                {
+                    if (!validateDegreesMinutesFormat(value))
+                    {
+                        isInFormat = false;
+                        break;
+                    }
+                }
+                else if (format == BaseViewModel.Degrees)
+                {
+                    if (!validateDegreesFormat(value))
+                    {
+                        isInFormat = false;
+                        break;
+                    }
+                }
+                else if (format == BaseViewModel.DegreesMinutesSeconds)
+                {
+                    if (!validateDegreesMinutesSecondsFormat(value))
+                    {
+                        isInFormat = false;
+                        break;
+                    }
+                }
+            }
+
+            return isInFormat;
+        }
+
+        // Matches for '52', '0', '12.12', but not for '00', '52.1.1', '52.ghgh', 'gfhgfh' ...
+        private bool validateDegreesFormat(string value)
+        {
+            return Regex.IsMatch(value, @"^([1-9]\d*|0)(\.\d*)?$");
+        }
+
+        // Matches for '52 13.00', '52 13', '52', but not for '00', '52.1.1', '52.ghgh', '52 dsg' ...
+        private bool validateDegreesMinutesFormat(string value)
+        {
+            return Regex.IsMatch(value, @"^([1-9]\d*|0)( ([1-9]\d*|0)(\.\d*)?)?$");
+        }
+
+        // Matches for '52 563 52.45', '0', '52 13.00', but not for '00', '52.1.1', '52.ghgh', 'gfhgfh' ...
+        private bool validateDegreesMinutesSecondsFormat(string value)
+        {
+            return Regex.IsMatch(value, @"^([1-9]\d*|0)( ([1-9]\d*|0))?( ([1-9]\d*|0)(\.\d*)?)?$");
         }
     }
 }

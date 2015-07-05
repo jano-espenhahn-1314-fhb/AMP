@@ -40,11 +40,11 @@ namespace AMP.GeoCachingTools.ViewModel
 
         // The format examples as string
 
-        private const string DegreesMinutes = "52° 31.249'";
+        public const string DegreesMinutes = "52° 31.249'";
 
-        private const string Degrees = "52.520817";
+        public const string Degrees = "52.520817";
 
-        private const string DegreesMinutesSeconds = "52° 31' 14.941''";
+        public const string DegreesMinutesSeconds = "52° 31' 14.941''";
         
         /*
          * Default constructor
@@ -88,9 +88,6 @@ namespace AMP.GeoCachingTools.ViewModel
             string longi;
             string lati;
 
-            // Convert the input values to the needed format
-            convert(SelectedItem.Value);
-
             // Check the values of the Textboxes
             validator = new Validator(initialCoordinate, distance, direction);
             validator.checkTextboxes();
@@ -113,24 +110,22 @@ namespace AMP.GeoCachingTools.ViewModel
 
                     if (counter == 0)
                     {
-                        longitude = validator.validatedValues[counter];
-                    }
-                    else if (counter == 1)
-                    {
-                        latitude = validator.validatedValues[counter];
-                    }
-                    else if (counter == 2)
-                    {
                         dist = validator.validatedValues[counter];
                     }
-                    else if (counter == 3)
+                    else if (counter == 1)
                     {
                         dire = validator.validatedValues[counter];
                         isCalculable = true;
                     }
                 }
 
-                // Degrees for direction between 0° and 360° ?
+                // Check the format of the coordinates
+                if (!validateFormat(SelectedItem.Value))
+                {
+                    isCalculable = false;
+                }
+
+                // Degrees in direction have to be between 0° and 360°
                 if (!validator.isInDirectionRange(dire))
                 {
                     Exception = new Exception("notInRange");
@@ -140,6 +135,12 @@ namespace AMP.GeoCachingTools.ViewModel
                 // if all values are correct, than it's calculabe, so calculate
                 if (isCalculable)
                 {
+                    // Convert the input values to the needed format
+                    convert(SelectedItem.Value);
+
+                    Double.TryParse(initialCoordinate.LongitudeCoordinate, out longitude);
+                    Double.TryParse(initialCoordinate.LatitudeCoordinate, out latitude);
+
                     Calculator calc = new Calculator(longitude, latitude, dist, dire);
                     calc.calculate();
                     longi = calc.longitude.ToString();
@@ -208,6 +209,42 @@ namespace AMP.GeoCachingTools.ViewModel
                     break;
             }
 
+        }
+
+        // validate the values for the needed formats, if not valid throw exception
+        private bool validateFormat(string format)
+        {
+            Validator validator = new Validator(initialCoordinate);
+            bool isValid = true;
+
+            switch (format)
+            {
+                case DegreesMinutes:
+                    if (!validator.validateFormat(DegreesMinutes))
+                    {
+                        Exception = new Exception("DegreesMinutes");
+                        isValid = false;
+                    }
+                    break;
+
+                case Degrees:
+                    if (!validator.validateFormat(Degrees))
+                    {
+                        Exception = new Exception("Degrees");
+                        isValid = false;
+                    }
+                    break;
+
+                case DegreesMinutesSeconds:
+                    if (!validator.validateFormat(DegreesMinutesSeconds))
+                    {
+                        Exception = new Exception("DegreesMinutesSeconds");
+                        isValid = false;
+                    }
+                    break;
+            }
+            
+            return isValid;
         }
 
     }
