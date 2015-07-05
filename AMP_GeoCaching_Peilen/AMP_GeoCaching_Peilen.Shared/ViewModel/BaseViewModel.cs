@@ -85,8 +85,10 @@ namespace AMP.GeoCachingTools.ViewModel
             double dist = -1;
             double dire = -1;
             bool isCalculable = false;
+            string longi;
+            string lati;
 
-            // TODO Convert the input values to the needed format
+            // Convert the input values to the needed format
             convert(SelectedItem.Value);
 
             // Check the values of the Textboxes
@@ -128,43 +130,23 @@ namespace AMP.GeoCachingTools.ViewModel
                     }
                 }
                 
-                // if all values are correct, than it's calculabe
+                // if all values are correct, than it's calculabe, so calculate
                 if (isCalculable)
                 {
-                    calculatePosition(longitude, latitude, dist, dire);
+                    Calculator calc = new Calculator(longitude, latitude, dist, dire);
+                    calc.calculate();
+                    longi = calc.longitude.ToString();
+                    lati = calc.latitude.ToString();
                 } 
                 else
                 {
-                    targetCoordinate.LongitudeCoordinate = "";
-                    targetCoordinate.LatitudeCoordinate = "";
+                    longi = "";
+                    lati = "";
                 }
+
+                targetCoordinate.LongitudeCoordinate = longi;
+                targetCoordinate.LatitudeCoordinate = lati;
             }
-        }
-
-        // business logic: the main calculation
-        private void calculatePosition(double longitude, double latitude, double dist, double dire)
-        {
-            /*
-             * Distance = ((way from initial to target) / (radius of the earth)) * ((180 * 60') / PI)
-             *          =  (way from initial to target) / (1853m)
-             */
-            dist = (dist / 1853);
-
-            // DeltaLongitude = ((way from initial to target) / (1853m)) * (cos(direction)) 
-            double deltaLongitude = (dist * Math.Cos(dire)) * (180 / Math.PI);
-
-            // Target-coordinate: initial longitude + deltaLongitude
-            double longi = longitude + deltaLongitude;
-
-            // DeltaLongitude = ((way from initial to target) / (1853m)) * (sin(direction)/cos(initial longitude + deltaLongitude)
-            double deltaLatitude = dist * (Math.Sin(dire) / Math.Cos(longi));
-
-            // Target-coordinate: initial latitude + deltaLatitude
-            double lati = latitude + deltaLatitude;
-
-            // Bind to UI
-            targetCoordinate.LongitudeCoordinate = longi.ToString();
-            targetCoordinate.LatitudeCoordinate = lati.ToString();
         }
 
         //Get the actual Geoposition, if Locationsetting is active
