@@ -76,5 +76,25 @@ namespace AMP_GeoCaching_Peilen.Commons
             return degrees.ToString().Replace(",", ".");
         }
 
+        // Convert from '50.4187166666' to '50 25.123'
+        public string convertDegreesToDegreesMinutes(double coordinate)
+        {
+            double degrees = Math.Truncate(coordinate);
+            double arcminutes = Math.Round((coordinate - degrees) * 60, 3);
+
+            return degrees.ToString() + " " + arcminutes.ToString().Replace(",", ".");
+        }
+
+        // Convert from '50.4187166666' to '50 25.123'
+        public string convertDegreesToDegreesMinutesSeconds(double coordinate)
+        {
+            double degrees = Math.Truncate(coordinate);
+            double arcminutesDecimal = coordinate - degrees;
+            double arcminutes = Math.Truncate(arcminutesDecimal);
+            double arcseconds = Math.Round((arcminutesDecimal - arcminutes) * 60, 3);
+
+            return degrees.ToString() + " " + arcminutes.ToString().Replace(",", ".") + " " + arcseconds.ToString().Replace(",", ".");
+        }
+
     }
 }

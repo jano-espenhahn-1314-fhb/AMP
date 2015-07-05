@@ -43,6 +43,7 @@ namespace AMP.GeoCachingTools.Commons
             values.Add(initialCoordinate.LatitudeCoordinate);
         }
         
+        // Main method for TextBoxCheck
         public void checkTextboxes()
         {
             if (!checkEmptyTextboxes())
@@ -103,6 +104,7 @@ namespace AMP.GeoCachingTools.Commons
             return isEmpty;
         }
 
+        // direction between 0° and 360°
         public bool isInDirectionRange(double value)
         {
             bool isInRange = false;

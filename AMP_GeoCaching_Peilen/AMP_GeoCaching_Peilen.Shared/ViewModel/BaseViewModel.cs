@@ -27,6 +27,8 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public string direction { get; set; }
 
+        private Converter converter = new Converter();
+
         private Item _selectedItem;
         public Item SelectedItem
         {
@@ -46,9 +48,7 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public const string DegreesMinutesSeconds = "52° 31' 14.941''";
         
-        /*
-         * Default constructor
-         */
+        //Default constructor
         public BaseViewModel()
         {
             // Actions for combobox at first page
@@ -136,15 +136,15 @@ namespace AMP.GeoCachingTools.ViewModel
                 if (isCalculable)
                 {
                     // Convert the input values to the needed format
-                    convert(SelectedItem.Value);
+                    convertTo(SelectedItem.Value);
 
                     Double.TryParse(initialCoordinate.LongitudeCoordinate, out longitude);
                     Double.TryParse(initialCoordinate.LatitudeCoordinate, out latitude);
 
                     Calculator calc = new Calculator(longitude, latitude, dist, dire);
                     calc.calculate();
-                    longi = calc.longitude.ToString();
-                    lati = calc.latitude.ToString();
+                    longi = convertBack(calc.longitude, SelectedItem.Value);
+                    lati = convertBack(calc.latitude, SelectedItem.Value);
                 } 
                 else
                 {
@@ -157,7 +157,7 @@ namespace AMP.GeoCachingTools.ViewModel
             }
         }
 
-        //Get the actual Geoposition, if Locationsetting is active
+        // Get the actual Geoposition, if Locationsetting is active
         public async void getPosition()
         {
             // Default = no exception
@@ -191,11 +191,10 @@ namespace AMP.GeoCachingTools.ViewModel
             }
         }
 
-        // convert the values into the needed formats
-        private void convert(string format)
+        // Convert the input values into the needed formats for calculation
+        private void convertTo(string format)
         {
-            Converter converter = new Converter();
-
+            
             switch (format)
             {
                 case DegreesMinutes:
@@ -211,10 +210,10 @@ namespace AMP.GeoCachingTools.ViewModel
 
         }
 
-        // validate the values for the needed formats, if not valid throw exception
+        // Validate the values for the needed formats, if not valid throw exception
         private bool validateFormat(string format)
         {
-            Validator validator = new Validator(initialCoordinate);
+            validator = new Validator(initialCoordinate);
             bool isValid = true;
 
             switch (format)
@@ -245,6 +244,25 @@ namespace AMP.GeoCachingTools.ViewModel
             }
             
             return isValid;
+        }
+
+        // Convert calculated values into the needed formats for output
+        private string convertBack(double value, string format)
+        {
+            string result = "";
+
+            switch (format)
+            {
+                case DegreesMinutes:
+                    result = converter.convertDegreesToDegreesMinutes(value);
+                    break;
+
+                case DegreesMinutesSeconds:
+                    result = converter.convertDegreesToDegreesMinutesSeconds(value);
+                    break;
+            }
+
+            return result;
         }
 
     }
