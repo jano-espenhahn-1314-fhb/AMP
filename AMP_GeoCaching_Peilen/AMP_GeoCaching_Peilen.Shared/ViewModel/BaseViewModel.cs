@@ -7,6 +7,7 @@ using System.Linq;
 using Windows.Devices.Geolocation;
 using AMP.GeoCachingTools.Commons;
 using System.Collections.Generic;
+using AMP_GeoCaching_Peilen.Commons;
 
 namespace AMP.GeoCachingTools.ViewModel
 {
@@ -37,6 +38,14 @@ namespace AMP.GeoCachingTools.ViewModel
             }
         }
 
+        // The format examples as string
+
+        private const string DegreesMinutes = "52° 31.249'";
+
+        private const string Degrees = "52.520817";
+
+        private const string DegreesMinutesSeconds = "52° 31' 14.941''";
+        
         /*
          * Default constructor
          */
@@ -54,12 +63,12 @@ namespace AMP.GeoCachingTools.ViewModel
         // Fill the ComboBox with Items
         private void GetItems()
         {
-            // Degrees, Minutes, Decimal Minutes Format
-            Items.Add(new Item() { Name = "52° 31.249', 13° 24.567'", Value = "52° 31.249'" });
-            // Decimal Degrees Format
-            Items.Add(new Item() { Name = "52.520817, 13.40945", Value = "52.520817" });
-            // Degres, Minutes, Seconds Format
-            Items.Add(new Item() { Name = "52° 31' 14.941'', 13° 24' 34.020''", Value = "52° 31' 14.941''" });
+            // Degrees and minutes format
+            Items.Add(new Item() { Name = "52° 31.249', 13° 24.567'", Value = DegreesMinutes });
+            // Decimal degrees format
+            Items.Add(new Item() { Name = "52.520817, 13.40945", Value = Degrees });
+            // Degres, minutes and seconds format
+            Items.Add(new Item() { Name = "52° 31' 14.941'', 13° 24' 34.020''", Value = DegreesMinutesSeconds });
         }
 
         /*
@@ -76,6 +85,9 @@ namespace AMP.GeoCachingTools.ViewModel
             double dist = -1;
             double dire = -1;
             bool isCalculable = false;
+
+            // TODO Convert the input values to the needed format
+            convert(SelectedItem.Value);
 
             // Check the values of the Textboxes
             tbvm = new TextBoxViewModel(initialCoordinate, distance, direction);
@@ -129,12 +141,13 @@ namespace AMP.GeoCachingTools.ViewModel
             }
         }
 
+        // business logic: the main calculation
         private void calculatePosition(double longitude, double latitude, double dist, double dire)
         {
             /*
-                 * Distance = ((way from initial to target) / (radius of the earth)) * ((180 * 60') / PI)
-                 *          =  (way from initial to target) / (1853m)
-                 */
+             * Distance = ((way from initial to target) / (radius of the earth)) * ((180 * 60') / PI)
+             *          =  (way from initial to target) / (1853m)
+             */
             dist = (dist / 1853);
 
             // DeltaLongitude = ((way from initial to target) / (1853m)) * (cos(direction)) 
@@ -154,9 +167,7 @@ namespace AMP.GeoCachingTools.ViewModel
             targetCoordinate.LatitudeCoordinate = lati.ToString();
         }
 
-        /*
-         * Get the actual Geoposition, if Locationsetting is active
-         */
+        //Get the actual Geoposition, if Locationsetting is active
         public async void getPosition()
         {
             // Default = no exception
@@ -190,6 +201,25 @@ namespace AMP.GeoCachingTools.ViewModel
             }
         }
 
-    }
+        // convert the values into the needed formats
+        private void convert(string format)
+        {
+            Converter converter = new Converter();
 
+            switch (format)
+            {
+                case DegreesMinutes:
+                    initialCoordinate.LongitudeCoordinate = converter.convertDegreesMinutesToDegrees(initialCoordinate.LongitudeCoordinate);
+                    initialCoordinate.LatitudeCoordinate = converter.convertDegreesMinutesToDegrees(initialCoordinate.LatitudeCoordinate);
+                    break;
+
+                case DegreesMinutesSeconds:
+                    initialCoordinate.LongitudeCoordinate = converter.convertDegreesMinutesSecondsToDegrees(initialCoordinate.LongitudeCoordinate);
+                    initialCoordinate.LatitudeCoordinate = converter.convertDegreesMinutesSecondsToDegrees(initialCoordinate.LatitudeCoordinate);
+                    break;
+            }
+
+        }
+
+    }
 }

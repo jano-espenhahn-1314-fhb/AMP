@@ -104,6 +104,7 @@ namespace AMP.GeoCachingTools
 
                     createMessageDialog(messageDialogContent, messageDialogTitle);
                 }
+                // Exceptionhandling for wrong values like '2132dsfd'
                 else if (bvm.Exception.Message.Equals("wrongValue"))
                 {
                     messageDialogTitle = "Ungültiger Wert!";

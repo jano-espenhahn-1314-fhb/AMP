@@ -46,14 +46,13 @@ namespace AMP.GeoCachingTools.ViewModel
                     validateDoubleValue(value);
                 }
             }
-
         }
 
+        // Check and parse values
         private void validateDoubleValue(string value)
         {
             double doubleValue;
 
-            // check and parse values
             if (Double.TryParse(value, out doubleValue))
             {
                 validatedValues.Add(doubleValue);
@@ -75,28 +74,24 @@ namespace AMP.GeoCachingTools.ViewModel
             {
                 emptyFields.Add("Entfernung");
                 isEmpty = true;
-                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Entfernung");
             }
 
             if (direction == null)
             {
                 emptyFields.Add("Richtung");
                 isEmpty = true;
-                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Richtung");
             }
 
             if (initialCoordinate.LongitudeCoordinate == null)
             {
                 emptyFields.Add("Breitengrad");
                 isEmpty = true;
-                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Breitengrad");
             }
 
             if (initialCoordinate.LatitudeCoordinate == null)
             {
                 emptyFields.Add("Längengrad");
                 isEmpty = true;
-                System.Diagnostics.Debug.WriteLine("Ich bin hier wegen : " + "Längengrad");
             }
 
             return isEmpty;
