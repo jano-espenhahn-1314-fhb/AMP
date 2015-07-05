@@ -21,7 +21,7 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public Exception Exception { get; set; }
 
-        public TextBoxViewModel tbvm;
+        public Validator validator;
 
         public string distance { get; set; }
 
@@ -92,10 +92,10 @@ namespace AMP.GeoCachingTools.ViewModel
             convert(SelectedItem.Value);
 
             // Check the values of the Textboxes
-            tbvm = new TextBoxViewModel(initialCoordinate, distance, direction);
-            tbvm.checkTextboxes();
+            validator = new Validator(initialCoordinate, distance, direction);
+            validator.checkTextboxes();
 
-            if (tbvm.emptyFields.Count > 0)
+            if (validator.emptyFields.Count > 0)
             {
                 // Exception for exceptionhandling in the view
                 Exception = new Exception("emptyFields");
@@ -103,9 +103,9 @@ namespace AMP.GeoCachingTools.ViewModel
             else
             {
                 // Bind to/from UI
-                for (int counter = 0; counter < tbvm.validatedValues.Count(); counter++)
+                for (int counter = 0; counter < validator.validatedValues.Count(); counter++)
                 {
-                    if (tbvm.validatedValues[counter] == -1)
+                    if (validator.validatedValues[counter] == -1)
                     {
                         Exception = new Exception("wrongValue");
                         break;
@@ -113,23 +113,30 @@ namespace AMP.GeoCachingTools.ViewModel
 
                     if (counter == 0)
                     {
-                        longitude = tbvm.validatedValues[counter];
+                        longitude = validator.validatedValues[counter];
                     }
                     else if (counter == 1)
                     {
-                        latitude = tbvm.validatedValues[counter];
+                        latitude = validator.validatedValues[counter];
                     }
                     else if (counter == 2)
                     {
-                        dist = tbvm.validatedValues[counter];
+                        dist = validator.validatedValues[counter];
                     }
                     else if (counter == 3)
                     {
-                        dire = tbvm.validatedValues[counter];
+                        dire = validator.validatedValues[counter];
                         isCalculable = true;
                     }
                 }
-                
+
+                // Degrees for direction between 0° and 360° ?
+                if (!validator.isInDirectionRange(dire))
+                {
+                    Exception = new Exception("notInRange");
+                    isCalculable = false;
+                }
+
                 // if all values are correct, than it's calculabe, so calculate
                 if (isCalculable)
                 {

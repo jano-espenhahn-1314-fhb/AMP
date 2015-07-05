@@ -8,9 +8,9 @@ using Windows.UI.Xaml;
 using System.Collections.Generic;
 using AMP.GeoCachingTools.Commons;
 
-namespace AMP.GeoCachingTools.ViewModel
+namespace AMP.GeoCachingTools.Commons
 {
-    public class TextBoxViewModel : BaseINPC
+    public class Validator : BaseINPC
     {
 
         private GeoCoordinate initialCoordinate { get; set; }
@@ -25,7 +25,7 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public List<double> validatedValues = new List<double>();
 
-        public TextBoxViewModel(GeoCoordinate initialCoordinate, string distance, string direction)
+        public Validator(GeoCoordinate initialCoordinate, string distance, string direction)
         {
             this.initialCoordinate = initialCoordinate;
             this.distance = distance;
@@ -82,19 +82,35 @@ namespace AMP.GeoCachingTools.ViewModel
                 isEmpty = true;
             }
 
-            if (initialCoordinate.LongitudeCoordinate == null)
+            if (initialCoordinate.LatitudeCoordinate == null)
             {
                 emptyFields.Add("Breitengrad");
                 isEmpty = true;
             }
 
-            if (initialCoordinate.LatitudeCoordinate == null)
+            if (initialCoordinate.LongitudeCoordinate == null)
             {
                 emptyFields.Add("Längengrad");
                 isEmpty = true;
             }
 
             return isEmpty;
+        }
+
+        public bool isInDirectionRange(double value)
+        {
+            bool isInRange = false;
+
+            System.Diagnostics.Debug.WriteLine("Wert ist : " + value.ToString());
+
+            if (value >= 0 && value <= 360)
+            {
+                isInRange = true;
+            }
+
+            System.Diagnostics.Debug.WriteLine("Wert ist : " + isInRange.ToString());
+
+            return isInRange;
         }
     }
 }

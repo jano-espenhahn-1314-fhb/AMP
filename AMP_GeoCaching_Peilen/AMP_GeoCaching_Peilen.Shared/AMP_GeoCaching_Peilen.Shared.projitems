@@ -18,9 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commons\BaseINPC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commons\Calculator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commons\Converter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commons\Validator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GeoCoordinate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Item.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\TextBoxViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\BaseViewModel.cs" />
   </ItemGroup>
 </Project>

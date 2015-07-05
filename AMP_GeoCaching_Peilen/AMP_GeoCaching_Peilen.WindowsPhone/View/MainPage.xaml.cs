@@ -64,12 +64,12 @@ namespace AMP.GeoCachingTools
                     string dialogHelper;
                     string dialogHelperVerb;
 
-                    if (bvm.tbvm.emptyFields.Count == 1)
+                    if (bvm.validator.emptyFields.Count == 1)
                     {
                         dialogHelper = "Das Feld ";
                         dialogHelperVerb = " ist ";
 
-                        foreach (string field in bvm.tbvm.emptyFields)
+                        foreach (string field in bvm.validator.emptyFields)
                         {
                             dialogHelper = dialogHelper + field;
                         }
@@ -79,39 +79,42 @@ namespace AMP.GeoCachingTools
                         dialogHelper = "Die Felder ";
                         dialogHelperVerb = " sind ";
 
-                        int length = bvm.tbvm.emptyFields.Count - 1;
+                        int length = bvm.validator.emptyFields.Count - 1;
 
                         for (int counter = 0; counter <= length; counter++)
                         {
                             if (counter < length - 1)
                             {
-                                dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + ", ";
+                                dialogHelper = dialogHelper + bvm.validator.emptyFields[counter] + ", ";
                             }
                             else if (counter == length - 1)
                             {
-                                dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter] + " und ";
+                                dialogHelper = dialogHelper + bvm.validator.emptyFields[counter] + " und ";
                             }
                             else
                             {
-                                dialogHelper = dialogHelper + bvm.tbvm.emptyFields[counter];
+                                dialogHelper = dialogHelper + bvm.validator.emptyFields[counter];
                             }
 
                         }
                     }
 
                     messageDialogTitle = "Ungültige Parametrisierung!";
-                    messageDialogContent = dialogHelper + dialogHelperVerb + "leer. Bitte geben Sie einen Wert ein.";
-
-                    createMessageDialog(messageDialogContent, messageDialogTitle);
+                    messageDialogContent = dialogHelper + dialogHelperVerb + "leer. Bitte geben Sie einen Wert ein.";   
                 }
                 // Exceptionhandling for wrong values like '2132dsfd'
                 else if (bvm.Exception.Message.Equals("wrongValue"))
                 {
                     messageDialogTitle = "Ungültiger Wert!";
-                    messageDialogContent = "Sie haben einen ungültigen Wert eingegeben. Bitte geben Sie eine Zahl im Format 'x.xx' ein";
-
-                    createMessageDialog(messageDialogContent, messageDialogTitle);
+                    messageDialogContent = "Sie haben einen ungültigen Wert eingegeben. Bitte geben Sie eine Zahl im Format 'x.xx' ein.";
                 }
+                else if (bvm.Exception.Message.Equals("notInRange"))
+                {
+                    messageDialogTitle = "Nicht im Wertebereich!";
+                    messageDialogContent = "Sie haben einen ungültigen Wert für Richtung eingegeben. Bitte geben Sie eine Zahl zwischen 0 und 360 ein.";
+                }
+
+                createMessageDialog(messageDialogContent, messageDialogTitle);
             }
         }
 
