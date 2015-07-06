@@ -105,7 +105,7 @@ namespace AMP.GeoCachingTools.View
                 else if (bvm.Exception.Message.Equals("wrongValue"))
                 {
                     messageDialogTitle = "Ungültiger Wert!";
-                    messageDialogContent = "Sie haben einen ungültigen Wert eingegeben. Bitte geben Sie eine Zahl im Format 'x.xx' ein.";
+                    messageDialogContent = "Sie haben einen ungültigen Wert eingegeben. Bitte geben Sie eine Zahl im Format 'x,xx' ein.";
                 }
                 else if (bvm.Exception.Message.StartsWith("Degrees"))
                 {

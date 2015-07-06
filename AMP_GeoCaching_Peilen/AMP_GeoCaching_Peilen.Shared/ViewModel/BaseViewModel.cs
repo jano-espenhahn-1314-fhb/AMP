@@ -34,6 +34,7 @@ namespace AMP.GeoCachingTools.ViewModel
             get { return _selectedItem; }
             set
             {
+                // Store the previous value
                 if (value != _selectedItem)
                 {
                     PreviousSelectedItem = _selectedItem;
@@ -223,7 +224,7 @@ namespace AMP.GeoCachingTools.ViewModel
             switch (format)
             {
                 case Constants.DegreesMinutes:
-                    if (!validator.validateFormat(Constants.DegreesMinutes))
+                    if (!validator.validateFormat(format))
                     {
                         Exception = new Exception("DegreesMinutes");
                         isValid = false;
@@ -231,7 +232,7 @@ namespace AMP.GeoCachingTools.ViewModel
                     break;
 
                 case Constants.Degrees:
-                    if (!validator.validateFormat(Constants.Degrees))
+                    if (!validator.validateFormat(format))
                     {
                         Exception = new Exception("Degrees");
                         isValid = false;
@@ -239,7 +240,7 @@ namespace AMP.GeoCachingTools.ViewModel
                     break;
 
                 case Constants.DegreesMinutesSeconds:
-                    if (!validator.validateFormat(Constants.DegreesMinutesSeconds))
+                    if (!validator.validateFormat(format))
                     {
                         Exception = new Exception("DegreesMinutesSeconds");
                         isValid = false;

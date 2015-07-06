@@ -77,25 +77,25 @@ namespace AMP.GeoCachingTools.Commons
 
             emptyFields = new List<string>();
 
-            if (distance == null)
+            if (distance == null || distance.Equals(""))
             {
                 emptyFields.Add("Entfernung");
                 isEmpty = true;
             }
 
-            if (direction == null)
+            if (direction == null || direction.Equals(""))
             {
                 emptyFields.Add("Richtung");
                 isEmpty = true;
             }
 
-            if (initialCoordinate.LatitudeCoordinate == null)
+            if (initialCoordinate.LatitudeCoordinate == null || initialCoordinate.LatitudeCoordinate.Equals(""))
             {
                 emptyFields.Add("Breitengrad");
                 isEmpty = true;
             }
 
-            if (initialCoordinate.LongitudeCoordinate == null)
+            if (initialCoordinate.LongitudeCoordinate == null || initialCoordinate.LongitudeCoordinate.Equals(""))
             {
                 emptyFields.Add("Längengrad");
                 isEmpty = true;

@@ -17,11 +17,6 @@ namespace AMP.GeoCachingTools.Commons
             string[] values = coordinate.Split(' ');
             int length = values.Length;
 
-            foreach (string s in values)
-            {
-                System.Diagnostics.Debug.WriteLine("Das hab ich im Angebot : " + s);
-            }
-
             for (int count = 0; count < length; count++)
             {
                 finalValues[count] = values[count];
