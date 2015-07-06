@@ -17,6 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Commons\BaseINPC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commons\Calculator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commons\Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commons\Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commons\Validator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GeoCoordinate.cs" />
