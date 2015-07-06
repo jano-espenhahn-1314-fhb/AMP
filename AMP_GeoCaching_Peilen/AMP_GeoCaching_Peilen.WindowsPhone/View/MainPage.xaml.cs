@@ -16,6 +16,7 @@ using AMP.GeoCachingTools.ViewModel;
 using AMP.GeoCachingTools;
 using Windows.Devices.Geolocation;
 using Windows.UI.Popups;
+using AMP.GeoCachingTools.Commons;
 
 namespace AMP.GeoCachingTools
 {
@@ -115,15 +116,15 @@ namespace AMP.GeoCachingTools
 
                     if (bvm.Exception.Message.Equals("DegreesMinutes"))
                     {
-                        messageDialogContent += "'xx xx.xxx' ein.";
+                        messageDialogContent += Constants.DegreesMinutes + " ein.";
                     }
                     else if (bvm.Exception.Message.Equals("Degrees"))
                     {
-                        messageDialogContent += "'xx.xxx' ein.";
+                        messageDialogContent += Constants.Degrees + " ein.";
                     }
                     else if (bvm.Exception.Message.Equals("DegreesMinutesSeconds"))
                     {
-                        messageDialogContent += "'xx xx xx.xxx' ein.";
+                        messageDialogContent += Constants.DegreesMinutesSeconds + " ein.";
                     }
                 }
                 // Exceptionhandling for Degrees in direction between 0° and 360°

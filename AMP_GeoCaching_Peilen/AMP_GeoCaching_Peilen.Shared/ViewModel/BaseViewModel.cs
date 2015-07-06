@@ -46,14 +46,6 @@ namespace AMP.GeoCachingTools.ViewModel
 
         private Item PreviousSelectedItem;
 
-        // The format examples as string
-
-        public const string DegreesMinutes = "52° 31.249'";
-
-        public const string Degrees = "52.520817";
-
-        public const string DegreesMinutesSeconds = "52° 31' 14.941''";
-
         private double longitude;
 
         private double latitude;
@@ -74,11 +66,11 @@ namespace AMP.GeoCachingTools.ViewModel
         private void GetItems()
         {
             // Degrees and minutes format
-            Items.Add(new Item() { Name = "52° 31.249', 13° 24.567'", Value = DegreesMinutes });
+            Items.Add(new Item() { Name = "52° 31.249', 13° 24.567'", Value = Constants.DegreesMinutes });
             // Decimal degrees format
-            Items.Add(new Item() { Name = "52.520817, 13.40945", Value = Degrees });
+            Items.Add(new Item() { Name = "52.520817, 13.40945", Value = Constants.Degrees });
             // Degres, minutes and seconds format
-            Items.Add(new Item() { Name = "52° 31' 14.941'', 13° 24' 34.020''", Value = DegreesMinutesSeconds });
+            Items.Add(new Item() { Name = "52° 31' 14.941'', 13° 24' 34.020''", Value = Constants.DegreesMinutesSeconds });
         }
 
         /*
@@ -206,15 +198,15 @@ namespace AMP.GeoCachingTools.ViewModel
 
             switch (format)
             {
-                case DegreesMinutes:
+                case Constants.DegreesMinutes:
                     result = converter.convertDegreesMinutesToDegrees(value);
                     break;
 
-                case Degrees:
+                case Constants.Degrees:
                     result = converter.convertDegreesStringToDegrees(value);
                     break;
 
-                case DegreesMinutesSeconds:
+                case Constants.DegreesMinutesSeconds:
                     result = converter.convertDegreesMinutesSecondsToDegrees(value);
                     break;
             }
@@ -230,24 +222,24 @@ namespace AMP.GeoCachingTools.ViewModel
 
             switch (format)
             {
-                case DegreesMinutes:
-                    if (!validator.validateFormat(DegreesMinutes))
+                case Constants.DegreesMinutes:
+                    if (!validator.validateFormat(Constants.DegreesMinutes))
                     {
                         Exception = new Exception("DegreesMinutes");
                         isValid = false;
                     }
                     break;
 
-                case Degrees:
-                    if (!validator.validateFormat(Degrees))
+                case Constants.Degrees:
+                    if (!validator.validateFormat(Constants.Degrees))
                     {
                         Exception = new Exception("Degrees");
                         isValid = false;
                     }
                     break;
 
-                case DegreesMinutesSeconds:
-                    if (!validator.validateFormat(DegreesMinutesSeconds))
+                case Constants.DegreesMinutesSeconds:
+                    if (!validator.validateFormat(Constants.DegreesMinutesSeconds))
                     {
                         Exception = new Exception("DegreesMinutesSeconds");
                         isValid = false;
@@ -265,15 +257,15 @@ namespace AMP.GeoCachingTools.ViewModel
 
             switch (format)
             {
-                case DegreesMinutes:
+                case Constants.DegreesMinutes:
                     result = converter.convertDegreesToDegreesMinutes(value);
                     break;
 
-                case Degrees:
+                case Constants.Degrees:
                     result = converter.convertDegreesToDegreesString(value);
                     break;
 
-                case DegreesMinutesSeconds:
+                case Constants.DegreesMinutesSeconds:
                     result = converter.convertDegreesToDegreesMinutesSeconds(value);
                     break;
             }
@@ -284,10 +276,18 @@ namespace AMP.GeoCachingTools.ViewModel
         // If the combobox change their value, change the format of the coordinates
         public void changeCoordinates()
         {
+            // Input values
             if (initialCoordinate.LongitudeCoordinate != null && initialCoordinate.LatitudeCoordinate != null)
             {
                 initialCoordinate.LongitudeCoordinate = convertBack(convertTo(initialCoordinate.LongitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
                 initialCoordinate.LatitudeCoordinate = convertBack(convertTo(initialCoordinate.LatitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
+            }
+
+            // Output values
+            if (targetCoordinate.LongitudeCoordinate != null && targetCoordinate.LatitudeCoordinate != null)
+            {
+                targetCoordinate.LongitudeCoordinate = convertBack(convertTo(targetCoordinate.LongitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
+                targetCoordinate.LatitudeCoordinate = convertBack(convertTo(targetCoordinate.LatitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
             }
         }
 

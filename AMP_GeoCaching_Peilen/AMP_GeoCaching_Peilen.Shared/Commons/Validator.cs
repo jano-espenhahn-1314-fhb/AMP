@@ -124,7 +124,7 @@ namespace AMP.GeoCachingTools.Commons
 
             foreach (string value in values)
             {
-                if (format == BaseViewModel.DegreesMinutes)
+                if (format == Constants.DegreesMinutes)
                 {
                     if (!validateDegreesMinutesFormat(value))
                     {
@@ -132,7 +132,7 @@ namespace AMP.GeoCachingTools.Commons
                         break;
                     }
                 }
-                else if (format == BaseViewModel.Degrees)
+                else if (format == Constants.Degrees)
                 {
                     if (!validateDegreesFormat(value))
                     {
@@ -140,7 +140,7 @@ namespace AMP.GeoCachingTools.Commons
                         break;
                     }
                 }
-                else if (format == BaseViewModel.DegreesMinutesSeconds)
+                else if (format == Constants.DegreesMinutesSeconds)
                 {
                     if (!validateDegreesMinutesSecondsFormat(value))
                     {
