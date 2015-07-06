@@ -27,7 +27,7 @@ namespace AMP.GeoCachingTools.Commons
         // The main calculation
         public void calculate ()
         {
-            // Distance comes in metres
+            // Distance comes in metres. We need it in kilometres.
             distance = distance / 1000;
 
             // Trigonometry : deltaLongitude = (cos(direction) * distance)

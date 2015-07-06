@@ -58,8 +58,6 @@ namespace AMP.GeoCachingTools
 
             if (bvm.Exception != null)
             {
-                System.Diagnostics.Debug.WriteLine("Fehler : " + bvm.Exception.Message.ToString());
-
                 // Exceptionhandling for empty fields
                 if (bvm.Exception.Message.Equals("emptyFields"))
                 {

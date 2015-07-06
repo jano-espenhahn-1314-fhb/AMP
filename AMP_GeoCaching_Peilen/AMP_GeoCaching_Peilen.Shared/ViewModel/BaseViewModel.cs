@@ -47,6 +47,10 @@ namespace AMP.GeoCachingTools.ViewModel
         public const string Degrees = "52.520817";
 
         public const string DegreesMinutesSeconds = "52° 31' 14.941''";
+
+        private double longitude;
+
+        private double latitude;
         
         //Default constructor
         public BaseViewModel()
@@ -80,8 +84,8 @@ namespace AMP.GeoCachingTools.ViewModel
             Exception = null;
 
             // Helper
-            double longitude = -1;
-            double latitude = -1;
+            longitude = -1;
+            latitude = -1;
             double dist = -1;
             double dire = -1;
             bool isCalculable = false;
@@ -137,9 +141,6 @@ namespace AMP.GeoCachingTools.ViewModel
                 {
                     // Convert the input values to the needed format
                     convertTo(SelectedItem.Value);
-
-                    Double.TryParse(initialCoordinate.LongitudeCoordinate, out longitude);
-                    Double.TryParse(initialCoordinate.LatitudeCoordinate, out latitude);
 
                     Calculator calc = new Calculator(longitude, latitude, dist, dire);
                     calc.calculate();
@@ -198,13 +199,18 @@ namespace AMP.GeoCachingTools.ViewModel
             switch (format)
             {
                 case DegreesMinutes:
-                    initialCoordinate.LongitudeCoordinate = converter.convertDegreesMinutesToDegrees(initialCoordinate.LongitudeCoordinate);
-                    initialCoordinate.LatitudeCoordinate = converter.convertDegreesMinutesToDegrees(initialCoordinate.LatitudeCoordinate);
+                    longitude = converter.convertDegreesMinutesToDegrees(initialCoordinate.LongitudeCoordinate);
+                    latitude = converter.convertDegreesMinutesToDegrees(initialCoordinate.LatitudeCoordinate);
+                    break;
+
+                case Degrees:
+                    longitude = converter.convertDegreesStringToDegrees(initialCoordinate.LongitudeCoordinate);
+                    latitude = converter.convertDegreesStringToDegrees(initialCoordinate.LatitudeCoordinate);
                     break;
 
                 case DegreesMinutesSeconds:
-                    initialCoordinate.LongitudeCoordinate = converter.convertDegreesMinutesSecondsToDegrees(initialCoordinate.LongitudeCoordinate);
-                    initialCoordinate.LatitudeCoordinate = converter.convertDegreesMinutesSecondsToDegrees(initialCoordinate.LatitudeCoordinate);
+                    longitude = converter.convertDegreesMinutesSecondsToDegrees(initialCoordinate.LongitudeCoordinate);
+                    latitude = converter.convertDegreesMinutesSecondsToDegrees(initialCoordinate.LatitudeCoordinate);
                     break;
             }
 
@@ -255,6 +261,10 @@ namespace AMP.GeoCachingTools.ViewModel
             {
                 case DegreesMinutes:
                     result = converter.convertDegreesToDegreesMinutes(value);
+                    break;
+
+                case Degrees:
+                    result = converter.convertDegreesStringToDegrees(value);
                     break;
 
                 case DegreesMinutesSeconds:

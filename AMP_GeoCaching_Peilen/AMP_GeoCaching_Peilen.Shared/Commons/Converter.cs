@@ -9,7 +9,7 @@ namespace AMP_GeoCaching_Peilen.Commons
     {
 
         // Convert from '50 25.123' to '50.4187166666'
-        public string convertDegreesMinutesToDegrees(string coordinate)
+        public double convertDegreesMinutesToDegrees(string coordinate)
         {
             double degrees;
             double arcminutes;
@@ -35,11 +35,19 @@ namespace AMP_GeoCaching_Peilen.Commons
             // We have to add the decimal degrees from arcminutes to the integer of degrees
             degrees = degrees + arcminutes;
 
-            return degrees.ToString().Replace(",", ".");
+            return degrees;
+        }
+
+        // Convert from '10.102' to '10,102'
+        public double convertDegreesStringToDegrees(string coordinate)
+        {
+            double degrees;
+            Double.TryParse(coordinate.Replace(".", ","), out degrees);
+            return degrees;
         }
 
         // Convert from '52 31 14.941' to '50.4187166666'
-        public string convertDegreesMinutesSecondsToDegrees(string coordinate)
+        public double convertDegreesMinutesSecondsToDegrees(string coordinate)
         {
             double degrees;
             double arcminutes;
@@ -73,7 +81,7 @@ namespace AMP_GeoCaching_Peilen.Commons
             // We have to add the decimal degrees from arcminutes to the integer of degrees
             degrees = degrees + arcminutes;
 
-            return degrees.ToString().Replace(",", ".");
+            return degrees;
         }
 
         // Convert from '50.4187166666' to '50 25.123'
@@ -83,6 +91,12 @@ namespace AMP_GeoCaching_Peilen.Commons
             double arcminutes = Math.Round((coordinate - degrees) * 60, 3);
 
             return degrees.ToString() + " " + arcminutes.ToString().Replace(",", ".");
+        }
+
+        // Convert from '10,102' to '10.102'
+        public string convertDegreesStringToDegrees(double coordinate)
+        {
+            return Math.Round(coordinate, 6).ToString().Replace(",", ".");
         }
 
         // Convert from '50.4187166666' to '50 25.123'
