@@ -94,7 +94,7 @@ namespace AMP_GeoCaching_Peilen.Commons
         }
 
         // Convert from '10,102' to '10.102'
-        public string convertDegreesStringToDegrees(double coordinate)
+        public string convertDegreesToDegreesString(double coordinate)
         {
             return Math.Round(coordinate, 6).ToString().Replace(",", ".");
         }
