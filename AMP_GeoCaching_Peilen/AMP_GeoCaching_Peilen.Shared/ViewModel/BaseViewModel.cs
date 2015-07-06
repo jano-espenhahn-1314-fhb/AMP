@@ -7,7 +7,6 @@ using System.Linq;
 using Windows.Devices.Geolocation;
 using AMP.GeoCachingTools.Commons;
 using System.Collections.Generic;
-using AMP_GeoCaching_Peilen.Commons;
 
 namespace AMP.GeoCachingTools.ViewModel
 {
@@ -35,10 +34,17 @@ namespace AMP.GeoCachingTools.ViewModel
             get { return _selectedItem; }
             set
             {
+                if (value != _selectedItem)
+                {
+                    PreviousSelectedItem = _selectedItem;
+                }
+
                 _selectedItem = value;
                 NotifyPropertyChanged("Item");
             }
         }
+
+        private Item PreviousSelectedItem;
 
         // The format examples as string
 
@@ -51,7 +57,7 @@ namespace AMP.GeoCachingTools.ViewModel
         private double longitude;
 
         private double latitude;
-        
+
         //Default constructor
         public BaseViewModel()
         {
@@ -147,7 +153,7 @@ namespace AMP.GeoCachingTools.ViewModel
                     calc.calculate();
                     longi = convertBack(calc.longitude, SelectedItem.Value);
                     lati = convertBack(calc.latitude, SelectedItem.Value);
-                } 
+                }
                 else
                 {
                     longi = "";
@@ -172,9 +178,9 @@ namespace AMP.GeoCachingTools.ViewModel
             {
                 // Exception for exceptionhandling in the view
                 Exception = new Exception("LocationSettingIsDisabled");
-            } 
+            }
             else
-            { 
+            {
                 try
                 {
                     Geoposition geoposition = await geolocator.GetGeopositionAsync(
@@ -248,7 +254,7 @@ namespace AMP.GeoCachingTools.ViewModel
                     }
                     break;
             }
-            
+
             return isValid;
         }
 
@@ -273,6 +279,16 @@ namespace AMP.GeoCachingTools.ViewModel
             }
 
             return result;
+        }
+
+        // If the combobox change their value, change the format of the coordinates
+        public void changeCoordinates()
+        {
+            if (initialCoordinate.LongitudeCoordinate != null && initialCoordinate.LatitudeCoordinate != null)
+            {
+                initialCoordinate.LongitudeCoordinate = convertBack(convertTo(initialCoordinate.LongitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
+                initialCoordinate.LatitudeCoordinate = convertBack(convertTo(initialCoordinate.LatitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
+            }
         }
 
     }

@@ -83,7 +83,8 @@
                    VerticalAlignment="Top" 
                    Width="500" 
                    Height="40" 
-                   FontSize="20"/>
+                   FontSize="20"
+                   SelectionChanged="changeCoordinates"/>
         <TextBlock HorizontalAlignment="Left" 
         	       Margin="232,505,0,0" 
         	       TextWrapping="Wrap" 

@@ -185,5 +185,10 @@ namespace AMP.GeoCachingTools
 
             await msg.ShowAsync();
         }
+
+        private void changeCoordinates(object sender, SelectionChangedEventArgs e)
+        {
+            bvm.changeCoordinates();
+        }
     }
 }

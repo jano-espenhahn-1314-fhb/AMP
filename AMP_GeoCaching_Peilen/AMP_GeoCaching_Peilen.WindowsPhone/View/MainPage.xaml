@@ -141,7 +141,8 @@
                    VerticalAlignment="Top" 
                    Width="230" 
                    Height="162" 
-                   FontSize="15"/>
+                   FontSize="15" 
+                   SelectionChanged="changeCoordinates"/>
         <TextBlock HorizontalAlignment="Left" 
         	       Margin="20,166,0,0" 
         	       TextWrapping="Wrap" 

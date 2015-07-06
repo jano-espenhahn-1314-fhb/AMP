@@ -156,19 +156,19 @@ namespace AMP.GeoCachingTools.Commons
         // Matches for '52', '0', '12.12', but not for '00', '52.1.1', '52.ghgh', 'gfhgfh' ...
         private bool validateDegreesFormat(string value)
         {
-            return Regex.IsMatch(value, @"^([1-9]\d*|0)(\.\d*)?$");
+            return Regex.IsMatch(value, @"^\-?([1-9]\d*|0)(\.\d*)?$");
         }
 
         // Matches for '52 13.00', '52 13', '52', but not for '00', '52.1.1', '52.ghgh', '52 dsg' ...
         private bool validateDegreesMinutesFormat(string value)
         {
-            return Regex.IsMatch(value, @"^([1-9]\d*|0)( ([1-9]\d*|0)(\.\d*)?)?$");
+            return Regex.IsMatch(value, @"^\-?([1-9]\d*|0)( \-?([1-9]\d*|0)(\.\d*)?)?$");
         }
 
         // Matches for '52 563 52.45', '0', '52 13.00', but not for '00', '52.1.1', '52.ghgh', 'gfhgfh' ...
         private bool validateDegreesMinutesSecondsFormat(string value)
         {
-            return Regex.IsMatch(value, @"^([1-9]\d*|0)( ([1-9]\d*|0))?( ([1-9]\d*|0)(\.\d*)?)?$");
+            return Regex.IsMatch(value, @"^\-?([1-9]\d*|0)( \-?([1-9]\d*|0))?( \-?([1-9]\d*|0)(\.\d*)?)?$");
         }
     }
 }
