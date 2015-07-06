@@ -27,16 +27,18 @@ namespace AMP.GeoCachingTools.Commons
         // The main calculation
         public void calculate ()
         {
+            double deltaLongitude = 0;
             // Distance comes in metres. We need it in kilometres.
             distance = distance / 1000;
 
             // Trigonometry : deltaLongitude = (cos(direction) * distance)
             // For longitudes : 1° is round about 111,12 km
-            longitude = ((Math.Cos(-direction) * distance) / 111.12) + longitude;
+            deltaLongitude = ((Math.Cos(direction) * distance) / 75) + longitude;
 
             // Trigonometry : deltaLatitude = (sin(direction) * distance)
             // For latitudes : 1° is round about 73,62 km
-            latitude = ((Math.Sin(-direction) * distance) / 73.62) + latitude;
+            latitude = ((Math.Sin(direction) * distance) / (75 * Math.Cos(longitude))) + latitude;
+
         }
 
     }
