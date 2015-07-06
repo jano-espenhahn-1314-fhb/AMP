@@ -18,10 +18,10 @@ using Windows.Devices.Geolocation;
 using Windows.UI.Popups;
 using AMP.GeoCachingTools.Commons;
 
-namespace AMP.GeoCachingTools
+namespace AMP.GeoCachingTools.View
 {
 
-    public sealed partial class MainPage : Page
+    public sealed partial class PeilenPage : Page
     {
 
         private BaseViewModel bvm;
@@ -30,7 +30,7 @@ namespace AMP.GeoCachingTools
 
         private string messageDialogContent;
 
-        public MainPage()
+        public PeilenPage()
         {
             init();
         }

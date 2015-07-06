@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMP.GeoCachingTools.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -95,7 +96,7 @@ namespace AMP.GeoCachingTools
                 // Wenn der Navigationsstapel nicht wiederhergestellt wird, zur ersten Seite navigieren
                 // und die neue Seite konfigurieren, indem die erforderlichen Informationen als Navigationsparameter
                 // übergeben werden
-                if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(PeilenPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }

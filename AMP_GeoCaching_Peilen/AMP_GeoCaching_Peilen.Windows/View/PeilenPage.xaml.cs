@@ -16,10 +16,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace AMP.GeoCachingTools
+namespace AMP.GeoCachingTools.View
 {
 
-    public sealed partial class MainPage : Page
+    public sealed partial class PeilenPage : Page
     {
 
         private BaseViewModel bvm;
@@ -28,7 +28,7 @@ namespace AMP.GeoCachingTools
 
         private string messageDialogContent;
 
-        public MainPage()
+        public PeilenPage()
         {
             init();
         }
