@@ -33,12 +33,13 @@ namespace AMP.GeoCachingTools.Commons
 
             // Trigonometry : deltaLongitude = (cos(direction) * distance)
             // For longitudes : 1° is round about 111,12 km
-            deltaLongitude = ((Math.Cos(direction) * distance) / 75) + longitude;
+            deltaLongitude = ((Math.Cos(direction) * distance) / 75); 
 
             // Trigonometry : deltaLatitude = (sin(direction) * distance)
             // For latitudes : 1° is round about 73,62 km
             latitude = ((Math.Sin(direction) * distance) / (75 * Math.Cos(longitude))) + latitude;
 
+            longitude += deltaLongitude;
         }
 
     }
