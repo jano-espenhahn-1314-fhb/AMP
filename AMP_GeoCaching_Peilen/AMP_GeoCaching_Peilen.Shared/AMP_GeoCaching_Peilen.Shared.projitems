@@ -23,5 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\GeoCoordinate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\PeilenPage.xaml.cs" />
   </ItemGroup>
 </Project>

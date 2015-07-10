@@ -12,13 +12,13 @@ namespace AMP.GeoCachingTools.ViewModel
 {
     public class BaseViewModel : BaseINPC
     {
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<Item> items { get; set; }
 
         public GeoCoordinate initialCoordinate { get; set; }
 
         public GeoCoordinate targetCoordinate { get; set; }
 
-        public Exception Exception { get; set; }
+        public Exception exception { get; set; }
 
         public Validator validator;
 
@@ -29,7 +29,7 @@ namespace AMP.GeoCachingTools.ViewModel
         private Converter converter = new Converter();
 
         private Item _selectedItem;
-        public Item SelectedItem
+        public Item selectedItem
         {
             get { return _selectedItem; }
             set
@@ -37,7 +37,7 @@ namespace AMP.GeoCachingTools.ViewModel
                 // Store the previous value
                 if (value != _selectedItem)
                 {
-                    PreviousSelectedItem = _selectedItem;
+                    previousSelectedItem = _selectedItem;
                 }
 
                 _selectedItem = value;
@@ -45,7 +45,7 @@ namespace AMP.GeoCachingTools.ViewModel
             }
         }
 
-        private Item PreviousSelectedItem;
+        private Item previousSelectedItem;
 
         private double longitude;
 
@@ -55,23 +55,23 @@ namespace AMP.GeoCachingTools.ViewModel
         public BaseViewModel()
         {
             // Actions for combobox at first page
-            Items = new ObservableCollection<Item>();
+            items = new ObservableCollection<Item>();
             GetItems();
-            SelectedItem = Items.FirstOrDefault();
+            selectedItem = items.FirstOrDefault();
 
             initialCoordinate = new GeoCoordinate();
             targetCoordinate = new GeoCoordinate();
         }
 
-        // Fill the ComboBox with Items
+        // Fill the ComboBox with items
         private void GetItems()
         {
             // Degrees and minutes format
-            Items.Add(new Item() { Name = "52° 31.249', 13° 24.567'", Value = Constants.DegreesMinutes });
+            items.Add(new Item() { Name = "52° 31.249', 13° 24.567'", Value = Constants.DegreesMinutes });
             // Decimal degrees format
-            Items.Add(new Item() { Name = "52.520817, 13.40945", Value = Constants.Degrees });
+            items.Add(new Item() { Name = "52.520817, 13.40945", Value = Constants.Degrees });
             // Degres, minutes and seconds format
-            Items.Add(new Item() { Name = "52° 31' 14.941'', 13° 24' 34.020''", Value = Constants.DegreesMinutesSeconds });
+            items.Add(new Item() { Name = "52° 31' 14.941'', 13° 24' 34.020''", Value = Constants.DegreesMinutesSeconds });
         }
 
         /*
@@ -80,58 +80,58 @@ namespace AMP.GeoCachingTools.ViewModel
         public void calculatePosition()
         {
             // Default = no exception
-            Exception = null;
+            exception = null;
 
             // Helper
             longitude = -1;
             latitude = -1;
             double dist = -1;
             double dire = -1;
-            bool isCalculable = false;
+            bool isCalculable = true;
             string longi;
             string lati;
 
+            List<string> values = new List<string>();
+            values.Add(distance);
+            values.Add(direction);
+
             // Check the values of the Textboxes
             validator = new Validator(initialCoordinate, distance, direction);
-            validator.checkTextboxes();
-
-            if (validator.emptyFields.Count > 0)
+            if (validator.checkEmptyTextboxes())
             {
-                // Exception for exceptionhandling in the view
-                Exception = new Exception("emptyFields");
+                // exception for exceptionhandling in the view
+                exception = new Exception("emptyFields");
             }
             else
             {
                 // Bind to/from UI
-                for (int counter = 0; counter < validator.validatedValues.Count(); counter++)
+                for (int counter = 0; counter < values.Count(); counter++)
                 {
-                    if (validator.validatedValues[counter] == -1)
+                    if (validator.validateDoubleValue(values[counter]) == 0)
                     {
-                        Exception = new Exception("wrongValue");
+                        exception = new Exception("wrongValue");
                         break;
                     }
-
-                    if (counter == 0)
+                    else if (counter == 0)
                     {
-                        dist = validator.validatedValues[counter];
+                       dist = validator.validateDoubleValue(values[counter]);
                     }
                     else if (counter == 1)
                     {
-                        dire = validator.validatedValues[counter];
-                        isCalculable = true;
+                        dire = validator.validateDoubleValue(values[counter]);
+
+                        // Degrees in direction have to be between 0° and 360°
+                        if (!validator.isInDirectionRange(dire))
+                        {
+                            exception = new Exception("notInRange");
+                            break;
+                        }
                     }
                 }
 
                 // Check the format of the coordinates
-                if (!validateFormat(SelectedItem.Value))
+                if (!validateFormat(selectedItem.Value))
                 {
-                    isCalculable = false;
-                }
-
-                // Degrees in direction have to be between 0° and 360°
-                if (!validator.isInDirectionRange(dire))
-                {
-                    Exception = new Exception("notInRange");
                     isCalculable = false;
                 }
 
@@ -139,13 +139,13 @@ namespace AMP.GeoCachingTools.ViewModel
                 if (isCalculable)
                 {
                     // Convert the input values to the needed format
-                    longitude = convertTo(initialCoordinate.LongitudeCoordinate, SelectedItem.Value);
-                    latitude = convertTo(initialCoordinate.LatitudeCoordinate, SelectedItem.Value);
+                    longitude = convertTo(initialCoordinate.LongitudeCoordinate, selectedItem.Value);
+                    latitude = convertTo(initialCoordinate.LatitudeCoordinate, selectedItem.Value);
 
                     Calculator calc = new Calculator(longitude, latitude, dist, dire);
                     calc.calculate();
-                    longi = convertBack(calc.longitude, SelectedItem.Value);
-                    lati = convertBack(calc.latitude, SelectedItem.Value);
+                    longi = convertBack(calc.longitude, selectedItem.Value);
+                    lati = convertBack(calc.latitude, selectedItem.Value);
                 }
                 else
                 {
@@ -162,15 +162,15 @@ namespace AMP.GeoCachingTools.ViewModel
         public async void getPosition()
         {
             // Default = no exception
-            Exception = null;
+            exception = null;
 
             Geolocator geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 100;
 
             if (geolocator.LocationStatus == PositionStatus.Disabled)
             {
-                // Exception for exceptionhandling in the view
-                Exception = new Exception("LocationSettingIsDisabled");
+                // exception for exceptionhandling in the view
+                exception = new Exception("LocationSettingIsDisabled");
             }
             else
             {
@@ -181,12 +181,12 @@ namespace AMP.GeoCachingTools.ViewModel
                          timeout: TimeSpan.FromSeconds(10)
                         );
 
-                    initialCoordinate.LongitudeCoordinate = convertBack(geoposition.Coordinate.Point.Position.Longitude, SelectedItem.Value);
-                    initialCoordinate.LatitudeCoordinate = convertBack(geoposition.Coordinate.Point.Position.Latitude, SelectedItem.Value);
+                    initialCoordinate.LongitudeCoordinate = convertBack(geoposition.Coordinate.Point.Position.Longitude, selectedItem.Value);
+                    initialCoordinate.LatitudeCoordinate = convertBack(geoposition.Coordinate.Point.Position.Latitude, selectedItem.Value);
                 }
                 catch (Exception ex)
                 {
-                    Exception = ex;
+                    exception = ex;
                     System.Diagnostics.Debug.WriteLine("Fehler : " + ex.Message.ToString());
                 }
             }
@@ -226,7 +226,7 @@ namespace AMP.GeoCachingTools.ViewModel
                 case Constants.DegreesMinutes:
                     if (!validator.validateFormat(format))
                     {
-                        Exception = new Exception("DegreesMinutes");
+                        exception = new Exception("DegreesMinutes");
                         isValid = false;
                     }
                     break;
@@ -234,7 +234,7 @@ namespace AMP.GeoCachingTools.ViewModel
                 case Constants.Degrees:
                     if (!validator.validateFormat(format))
                     {
-                        Exception = new Exception("Degrees");
+                        exception = new Exception("Degrees");
                         isValid = false;
                     }
                     break;
@@ -242,7 +242,7 @@ namespace AMP.GeoCachingTools.ViewModel
                 case Constants.DegreesMinutesSeconds:
                     if (!validator.validateFormat(format))
                     {
-                        Exception = new Exception("DegreesMinutesSeconds");
+                        exception = new Exception("DegreesMinutesSeconds");
                         isValid = false;
                     }
                     break;
@@ -280,15 +280,15 @@ namespace AMP.GeoCachingTools.ViewModel
             // Input values
             if (initialCoordinate.LongitudeCoordinate != null && initialCoordinate.LatitudeCoordinate != null)
             {
-                initialCoordinate.LongitudeCoordinate = convertBack(convertTo(initialCoordinate.LongitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
-                initialCoordinate.LatitudeCoordinate = convertBack(convertTo(initialCoordinate.LatitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
+                initialCoordinate.LongitudeCoordinate = convertBack(convertTo(initialCoordinate.LongitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
+                initialCoordinate.LatitudeCoordinate = convertBack(convertTo(initialCoordinate.LatitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
             }
 
             // Output values
             if (targetCoordinate.LongitudeCoordinate != null && targetCoordinate.LatitudeCoordinate != null)
             {
-                targetCoordinate.LongitudeCoordinate = convertBack(convertTo(targetCoordinate.LongitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
-                targetCoordinate.LatitudeCoordinate = convertBack(convertTo(targetCoordinate.LatitudeCoordinate, PreviousSelectedItem.Value), SelectedItem.Value);
+                targetCoordinate.LongitudeCoordinate = convertBack(convertTo(targetCoordinate.LongitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
+                targetCoordinate.LatitudeCoordinate = convertBack(convertTo(targetCoordinate.LatitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
             }
         }
 

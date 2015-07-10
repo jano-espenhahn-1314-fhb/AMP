@@ -75,8 +75,8 @@
                    VerticalAlignment="Top" 
                    FontSize="27"/>
         <ComboBox  Name="cBox_FormatSelector" 
-                   ItemsSource="{Binding Items}"
-                   SelectedValue="{Binding SelectedItem, Mode=TwoWay}"
+                   ItemsSource="{Binding items}"
+                   SelectedValue="{Binding selectedItem, Mode=TwoWay}"
                    DisplayMemberPath="Name"
                    HorizontalAlignment="Left" 
                    Margin="632,340,0,0" 

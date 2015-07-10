@@ -27,13 +27,19 @@ namespace AMP.GeoCachingTools.Commons
                 finalValues[1] = "0";
             }
 
+            // fill with zeros
+            if (finalValues[1].Length < 6)
+            {
+                finalValues[1] = fillWithZeros(finalValues[1]);
+            }
+
             Double.TryParse(finalValues[0], out degrees);
             Double.TryParse(finalValues[1], out arcminutes);
 
             // Arcminutes / 1000  = solution for decimal and (solution / 60) for decimal degrees
             arcminutes = arcminutes / 1000 / 60;
             // We have to add the decimal degrees from arcminutes to the integer of degrees
-            degrees = degrees + arcminutes;
+            degrees += arcminutes;
 
             return degrees;
         }
@@ -68,6 +74,18 @@ namespace AMP.GeoCachingTools.Commons
             else if (length == 2)
             {
                 finalValues[2] = "0";
+            }
+
+            // fill with zeros
+            if (finalValues[1].Length < 6)
+            {
+                finalValues[1] = fillWithZeros(finalValues[1]);
+            }
+
+            // fill with zeros
+            if (finalValues[2].Length < 6)
+            {
+                finalValues[2] = fillWithZeros(finalValues[2]);
             }
 
             Double.TryParse(finalValues[0], out degrees);
@@ -108,6 +126,12 @@ namespace AMP.GeoCachingTools.Commons
             double arcseconds = Math.Round((arcminutesDecimal - arcminutes) * 60, 3);
 
             return degrees.ToString() + " " + arcminutes.ToString().Replace(",", ".") + " " + arcseconds.ToString().Replace(",", ".");
+        }
+
+        // if a arcminute or arcsecond has not six elements, the conversation is going to be failed
+        private string fillWithZeros(string value)
+        {
+            return value.PadRight(6, '0');
         }
 
     }

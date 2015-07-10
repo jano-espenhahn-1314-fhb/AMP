@@ -57,10 +57,10 @@ namespace AMP.GeoCachingTools.View
         {
             bvm.calculatePosition();
 
-            if (bvm.Exception != null)
+            if (bvm.exception != null)
             {
                 // Exceptionhandling for empty fields
-                if (bvm.Exception.Message.Equals("emptyFields"))
+                if (bvm.exception.Message.Equals("emptyFields"))
                 {
                     string dialogHelper;
                     string dialogHelperVerb;
@@ -101,34 +101,34 @@ namespace AMP.GeoCachingTools.View
                     }
 
                     messageDialogTitle = "Ungültige Parametrisierung!";
-                    messageDialogContent = dialogHelper + dialogHelperVerb + "leer. Bitte geben Sie einen Wert ein.";   
+                    messageDialogContent = dialogHelper + dialogHelperVerb + "leer. Bitte geben Sie einen Wert ein.";
                 }
                 // Exceptionhandling for wrong values like '2132dsfd'
-                else if (bvm.Exception.Message.Equals("wrongValue"))
+                else if (bvm.exception.Message.Equals("wrongValue"))
                 {
                     messageDialogTitle = "Ungültiger Wert!";
                     messageDialogContent = "Sie haben einen ungültigen Wert eingegeben. Bitte geben Sie eine Zahl im Format 'x,xx' ein.";
                 }
-                else if (bvm.Exception.Message.StartsWith("Degrees"))
+                else if (bvm.exception.Message.StartsWith("Degrees"))
                 {
                     messageDialogTitle = "Ungültiges Format der Geokoordinaten!";
                     messageDialogContent = "Sie haben ungültige Geokoordinaten eingegeben. Bitte geben Sie Koordinaten im Format ";
 
-                    if (bvm.Exception.Message.Equals("DegreesMinutes"))
+                    if (bvm.exception.Message.Equals("DegreesMinutes"))
                     {
                         messageDialogContent += Constants.DegreesMinutes + " ein.";
                     }
-                    else if (bvm.Exception.Message.Equals("Degrees"))
+                    else if (bvm.exception.Message.Equals("Degrees"))
                     {
                         messageDialogContent += Constants.Degrees + " ein.";
                     }
-                    else if (bvm.Exception.Message.Equals("DegreesMinutesSeconds"))
+                    else if (bvm.exception.Message.Equals("DegreesMinutesSeconds"))
                     {
                         messageDialogContent += Constants.DegreesMinutesSeconds + " ein.";
                     }
                 }
                 // Exceptionhandling for Degrees in direction between 0° and 360°
-                else if (bvm.Exception.Message.Equals("notInRange"))
+                else if (bvm.exception.Message.Equals("notInRange"))
                 {
                     messageDialogTitle = "Nicht im Wertebereich!";
                     messageDialogContent = "Sie haben einen ungültigen Wert für Richtung eingegeben. Bitte geben Sie eine Zahl zwischen 0 und 360 ein.";
@@ -144,9 +144,9 @@ namespace AMP.GeoCachingTools.View
             bvm.getPosition();
 
             // Exceptionhandling for disabled locationsettings or other errors
-            if (bvm.Exception != null)
+            if (bvm.exception != null)
             {
-                if (bvm.Exception.Message.Equals("LocationSettingIsDisabled"))
+                if (bvm.exception.Message.Equals("LocationSettingIsDisabled"))
                 {
                     messageDialogTitle = "Ortung inaktiv!";
                     messageDialogContent = "Bitte aktivieren Sie die Ortung in den Einstellungen.";

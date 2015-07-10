@@ -25,16 +25,11 @@ namespace AMP.GeoCachingTools.Commons
 
         public List<string> emptyFields { get; set; }
 
-        public List<double> validatedValues = new List<double>();
-
         public Validator(GeoCoordinate initialCoordinate, string distance, string direction)
         {
             this.initialCoordinate = initialCoordinate;
             this.distance = distance;
             this.direction = direction;
-
-            values.Add(distance);
-            values.Add(direction);
         }
 
         public Validator(GeoCoordinate initialCoordinate)
@@ -43,35 +38,18 @@ namespace AMP.GeoCachingTools.Commons
             values.Add(initialCoordinate.LatitudeCoordinate);
         }
         
-        // Main method for TextBoxCheck
-        public void checkTextboxes()
-        {
-            if (!checkEmptyTextboxes())
-            {
-                foreach (string value in values)
-                {
-                    validateDoubleValue(value);
-                }
-            }
-        }
-
         // Check and parse values
-        private void validateDoubleValue(string value)
+        public double validateDoubleValue(string value)
         {
             double doubleValue;
 
-            if (Double.TryParse(value, out doubleValue))
-            {
-                validatedValues.Add(doubleValue);
-            }
-            else
-            {
-                validatedValues.Add(-1);
-            }
+            Double.TryParse(value, out doubleValue);
+
+            return doubleValue;
         }
 
         // Simple check, if fields are empty
-        private bool checkEmptyTextboxes()
+        public bool checkEmptyTextboxes()
         {
             bool isEmpty = false;
 
