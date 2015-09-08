@@ -138,16 +138,9 @@ namespace AMP.GeoCachingTools.ViewModel
                 // if all values are correct, than it's calculabe, so calculate
                 if (isCalculable)
                 {
-                    System.Diagnostics.Debug.WriteLine("Breitengrad vor der Konvertierung : " + initialCoordinate.LatitudeCoordinate);
-                    System.Diagnostics.Debug.WriteLine("Längengrad vor der Konvertierung : " + initialCoordinate.LongitudeCoordinate);
-
                     // Convert the input values to the needed format
                     longitude = convertTo(initialCoordinate.LongitudeCoordinate, selectedItem.Value, false);
                     latitude = convertTo(initialCoordinate.LatitudeCoordinate, selectedItem.Value, true);
-
-                    System.Diagnostics.Debug.WriteLine("Breitengrad nach der Konvertierung : " + latitude.ToString());
-                    System.Diagnostics.Debug.WriteLine("Längengrad nach der Konvertierung : " + longitude.ToString());
-
                     calculator.calculate(latitude, longitude, dist, dire);
                     longi = convertBack(calculator.longitude, selectedItem.Value);
                     lati = convertBack(calculator.latitude, selectedItem.Value);
@@ -182,8 +175,8 @@ namespace AMP.GeoCachingTools.ViewModel
                 try
                 {
                     Geoposition geoposition = await geolocator.GetGeopositionAsync(
-                         maximumAge: TimeSpan.FromMinutes(5),
-                         timeout: TimeSpan.FromSeconds(10)
+                         maximumAge: TimeSpan.FromMinutes(1),
+                         timeout: TimeSpan.FromSeconds(30)
                         );
 
                     initialCoordinate.LongitudeCoordinate = convertBack(geoposition.Coordinate.Point.Position.Longitude, selectedItem.Value);
@@ -279,21 +272,29 @@ namespace AMP.GeoCachingTools.ViewModel
             return result;
         }
 
-        // if the combobox change their value, change the format of the coordinates
+        // If the combobox change their value(s), change the format of the coordinates
         public void changeCoordinates()
         {
-            // input values
+            // Input values
             if (initialCoordinate.LongitudeCoordinate != null && initialCoordinate.LatitudeCoordinate != null)
             {
-                initialCoordinate.LongitudeCoordinate = convertBack(convertTo(initialCoordinate.LongitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
-                initialCoordinate.LatitudeCoordinate = convertBack(convertTo(initialCoordinate.LatitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
+                double lati = convertTo(initialCoordinate.LatitudeCoordinate, previousSelectedItem.Value, true);
+                double longi = convertTo(initialCoordinate.LongitudeCoordinate, previousSelectedItem.Value, false);
+                lati = calculator.latitudeDegress + (lati / 60);
+                longi = calculator.longitudeDegress + (longi / 60);
+                initialCoordinate.LatitudeCoordinate = convertBack(lati, selectedItem.Value);
+                initialCoordinate.LongitudeCoordinate = convertBack(longi, selectedItem.Value);
             }
 
-            // output values
+            // Output values
             if (targetCoordinate.LongitudeCoordinate != null && targetCoordinate.LatitudeCoordinate != null)
             {
-                targetCoordinate.LongitudeCoordinate = convertBack(convertTo(targetCoordinate.LongitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
-                targetCoordinate.LatitudeCoordinate = convertBack(convertTo(targetCoordinate.LatitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
+                double lati = convertTo(targetCoordinate.LatitudeCoordinate, previousSelectedItem.Value, true);
+                double longi = convertTo(targetCoordinate.LongitudeCoordinate, previousSelectedItem.Value, false);
+                lati = calculator.latitudeDegress + (lati / 60);
+                longi = calculator.longitudeDegress + (longi / 60);
+                targetCoordinate.LatitudeCoordinate = convertBack(lati, selectedItem.Value);
+                targetCoordinate.LongitudeCoordinate = convertBack(longi, selectedItem.Value);
             }
         }
 

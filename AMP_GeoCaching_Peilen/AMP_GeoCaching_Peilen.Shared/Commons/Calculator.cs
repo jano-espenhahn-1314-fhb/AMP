@@ -12,18 +12,15 @@ namespace AMP.GeoCachingTools.Commons
 
         public double latitude { get; set; }
 
-        private double longitudeDegress;
+        public double longitudeDegress { get; set; }
 
-        private double latitudeDegress;
+        public double latitudeDegress { get; set; }
 
         // The main calculation
         public void calculate (double lati, double longi, double distance, double direction)
         {
             double deltaLatitude = 0;
             double deltaLongitude = 0;
-
-            System.Diagnostics.Debug.WriteLine("Ausgangsbreitengrad : " + lati.ToString());
-            System.Diagnostics.Debug.WriteLine("Ausgangslängengrad : " + longi.ToString());
 
             // Trigonometry : Delta to North = (cos(direction) * distance)
             // New latitude = (Delta to North / 1850) + old latitude
@@ -38,9 +35,6 @@ namespace AMP.GeoCachingTools.Commons
             longi += deltaLongitude;
 
             longitude = longitudeDegress + (longi / 60);
-
-            System.Diagnostics.Debug.WriteLine("Endbreitengrad : " + latitude.ToString());
-            System.Diagnostics.Debug.WriteLine("Endgangslängengrad : " + longitude.ToString());
         }
 
         // Math.Cos and Math.Sin doesn't support input in degrees, 
@@ -187,10 +181,6 @@ namespace AMP.GeoCachingTools.Commons
             Double.TryParse(finalValues[0], out degrees);
             Double.TryParse(finalValues[1], out arcminutes);
             Double.TryParse(finalValues[2], out arcseconds);
-
-            System.Diagnostics.Debug.WriteLine("Grad : " + degrees.ToString());
-            System.Diagnostics.Debug.WriteLine("Bogenminuten : " + arcminutes.ToString());
-            System.Diagnostics.Debug.WriteLine("Bogensekunden : " + arcseconds.ToString());
 
             if (isLatitude == true)
             {
