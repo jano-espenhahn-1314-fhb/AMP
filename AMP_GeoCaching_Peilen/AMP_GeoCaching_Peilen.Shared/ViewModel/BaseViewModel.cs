@@ -142,16 +142,15 @@ namespace AMP.GeoCachingTools.ViewModel
                     System.Diagnostics.Debug.WriteLine("Längengrad vor der Konvertierung : " + initialCoordinate.LongitudeCoordinate);
 
                     // Convert the input values to the needed format
-                    longitude = convertTo(initialCoordinate.LongitudeCoordinate, selectedItem.Value);
-                    latitude = convertTo(initialCoordinate.LatitudeCoordinate, selectedItem.Value);
+                    longitude = convertTo(initialCoordinate.LongitudeCoordinate, selectedItem.Value, false);
+                    latitude = convertTo(initialCoordinate.LatitudeCoordinate, selectedItem.Value, true);
 
                     System.Diagnostics.Debug.WriteLine("Breitengrad nach der Konvertierung : " + latitude.ToString());
                     System.Diagnostics.Debug.WriteLine("Längengrad nach der Konvertierung : " + longitude.ToString());
 
-                    Calculator calc = new Calculator(longitude, latitude, dist, dire);
-                    calc.calculate();
-                    longi = convertBack(calc.longitude, selectedItem.Value);
-                    lati = convertBack(calc.latitude, selectedItem.Value);
+                    calculator.calculate(latitude, longitude, dist, dire);
+                    longi = convertBack(calculator.longitude, selectedItem.Value);
+                    lati = convertBack(calculator.latitude, selectedItem.Value);
                 }
                 else
                 {
@@ -199,22 +198,22 @@ namespace AMP.GeoCachingTools.ViewModel
         }
 
         // Convert the input values into the needed formats for calculation
-        private double convertTo(string value, string format)
+        private double convertTo(string value, string format, bool? isLatitude)
         {
             double result = 0;
 
             switch (format)
             {
                 case Constants.DegreesMinutes:
-                    result = calculator.convertDegreesMinutesToDegrees(value);
+                    result = calculator.convertDegreesMinutesStringToDegreesMinutes(value, isLatitude);
                     break;
 
                 case Constants.Degrees:
-                    result = calculator.convertDegreesStringToDegrees(value);
+                    result = calculator.convertDegreesStringToDegreesMinutes(value, isLatitude);
                     break;
 
                 case Constants.DegreesMinutesSeconds:
-                    result = calculator.convertDegreesMinutesSecondsToDegrees(value);
+                    result = calculator.convertDegreesMinutesSecondsStringToDegreesMinutes(value, isLatitude);
                     break;
             }
 
@@ -280,21 +279,21 @@ namespace AMP.GeoCachingTools.ViewModel
             return result;
         }
 
-        // If the combobox change their value, change the format of the coordinates
+        // if the combobox change their value, change the format of the coordinates
         public void changeCoordinates()
         {
-            // Input values
+            // input values
             if (initialCoordinate.LongitudeCoordinate != null && initialCoordinate.LatitudeCoordinate != null)
             {
-                initialCoordinate.LongitudeCoordinate = convertBack(convertTo(initialCoordinate.LongitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
-                initialCoordinate.LatitudeCoordinate = convertBack(convertTo(initialCoordinate.LatitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
+                initialCoordinate.LongitudeCoordinate = convertBack(convertTo(initialCoordinate.LongitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
+                initialCoordinate.LatitudeCoordinate = convertBack(convertTo(initialCoordinate.LatitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
             }
 
-            // Output values
+            // output values
             if (targetCoordinate.LongitudeCoordinate != null && targetCoordinate.LatitudeCoordinate != null)
             {
-                targetCoordinate.LongitudeCoordinate = convertBack(convertTo(targetCoordinate.LongitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
-                targetCoordinate.LatitudeCoordinate = convertBack(convertTo(targetCoordinate.LatitudeCoordinate, previousSelectedItem.Value), selectedItem.Value);
+                targetCoordinate.LongitudeCoordinate = convertBack(convertTo(targetCoordinate.LongitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
+                targetCoordinate.LatitudeCoordinate = convertBack(convertTo(targetCoordinate.LatitudeCoordinate, previousSelectedItem.Value, null), selectedItem.Value);
             }
         }
 
