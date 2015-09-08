@@ -26,7 +26,7 @@ namespace AMP.GeoCachingTools.ViewModel
 
         public string direction { get; set; }
 
-        private Converter converter = new Converter();
+        private Calculator calculator = new Calculator();
 
         private Item _selectedItem;
         public Item selectedItem
@@ -138,9 +138,15 @@ namespace AMP.GeoCachingTools.ViewModel
                 // if all values are correct, than it's calculabe, so calculate
                 if (isCalculable)
                 {
+                    System.Diagnostics.Debug.WriteLine("Breitengrad vor der Konvertierung : " + initialCoordinate.LatitudeCoordinate);
+                    System.Diagnostics.Debug.WriteLine("Längengrad vor der Konvertierung : " + initialCoordinate.LongitudeCoordinate);
+
                     // Convert the input values to the needed format
                     longitude = convertTo(initialCoordinate.LongitudeCoordinate, selectedItem.Value);
                     latitude = convertTo(initialCoordinate.LatitudeCoordinate, selectedItem.Value);
+
+                    System.Diagnostics.Debug.WriteLine("Breitengrad nach der Konvertierung : " + latitude.ToString());
+                    System.Diagnostics.Debug.WriteLine("Längengrad nach der Konvertierung : " + longitude.ToString());
 
                     Calculator calc = new Calculator(longitude, latitude, dist, dire);
                     calc.calculate();
@@ -200,15 +206,15 @@ namespace AMP.GeoCachingTools.ViewModel
             switch (format)
             {
                 case Constants.DegreesMinutes:
-                    result = converter.convertDegreesMinutesToDegrees(value);
+                    result = calculator.convertDegreesMinutesToDegrees(value);
                     break;
 
                 case Constants.Degrees:
-                    result = converter.convertDegreesStringToDegrees(value);
+                    result = calculator.convertDegreesStringToDegrees(value);
                     break;
 
                 case Constants.DegreesMinutesSeconds:
-                    result = converter.convertDegreesMinutesSecondsToDegrees(value);
+                    result = calculator.convertDegreesMinutesSecondsToDegrees(value);
                     break;
             }
 
@@ -259,15 +265,15 @@ namespace AMP.GeoCachingTools.ViewModel
             switch (format)
             {
                 case Constants.DegreesMinutes:
-                    result = converter.convertDegreesToDegreesMinutes(value);
+                    result = calculator.convertDegreesToDegreesMinutes(value);
                     break;
 
                 case Constants.Degrees:
-                    result = converter.convertDegreesToDegreesString(value);
+                    result = calculator.convertDegreesToDegreesString(value);
                     break;
 
                 case Constants.DegreesMinutesSeconds:
-                    result = converter.convertDegreesToDegreesMinutesSeconds(value);
+                    result = calculator.convertDegreesToDegreesMinutesSeconds(value);
                     break;
             }
 
