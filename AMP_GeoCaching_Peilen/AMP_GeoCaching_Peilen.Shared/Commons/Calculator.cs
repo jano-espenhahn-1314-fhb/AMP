@@ -74,15 +74,11 @@ namespace AMP.GeoCachingTools.Commons
             return degrees.ToString() + " " + arcminutes.ToString().Replace(",", ".") + " " + arcseconds.ToString("N3").Replace(",", ".");
         }
 
-        // if a arcminute or arcsecond has not six elements, the conversation is going to be failed
-        private string fillWithZeros(string value)
-        {
-            return value.PadRight(6, '0');
-        }
-
         // Convert from '50 25.123' to '50 25,123'
         public double convertDegreesMinutesStringToDegreesMinutes(string coordinate, bool? isLatitude)
         {
+            System.Diagnostics.Debug.WriteLine("So kommt der Wert rein : " + coordinate);
+
             double degrees;
             double arcminutes;
             string[] finalValues = new string[2];
@@ -99,8 +95,10 @@ namespace AMP.GeoCachingTools.Commons
                 finalValues[1] = "0";
             }
 
+            System.Diagnostics.Debug.WriteLine("So ist der Wert vor dem Parsen : " + finalValues[1]);
+
             Double.TryParse(finalValues[0], out degrees);
-            Double.TryParse(finalValues[1], out arcminutes);
+            Double.TryParse(finalValues[1].Replace(".", ","), out arcminutes);
 
             if (isLatitude == true)
             {
@@ -111,7 +109,9 @@ namespace AMP.GeoCachingTools.Commons
                 longitudeDegress = degrees;
             }
 
-            arcminutes /= 1000 ;
+            System.Diagnostics.Debug.WriteLine("So geht der Wert raus Degrees : " + degrees);
+
+            System.Diagnostics.Debug.WriteLine("So geht der Wert raus Bogenminuten : " + arcminutes);
 
             return arcminutes;
         }
@@ -176,11 +176,9 @@ namespace AMP.GeoCachingTools.Commons
                 finalValues[2] = "0";
             }
 
-            finalValues[2] = finalValues[2].Replace(".", ",");
-
             Double.TryParse(finalValues[0], out degrees);
-            Double.TryParse(finalValues[1], out arcminutes);
-            Double.TryParse(finalValues[2], out arcseconds);
+            Double.TryParse(finalValues[1].Replace(".", ","), out arcminutes);
+            Double.TryParse(finalValues[2].Replace(".", ","), out arcseconds);
 
             if (isLatitude == true)
             {
